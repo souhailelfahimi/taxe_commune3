@@ -33,7 +33,7 @@
                         <p:outputLabel value="Redevable" for="redevable" />
                         <p:inputText id="redevable" value="#{taxeTrimController.selected.redevable}" placeholder="#{taxeTrimController.redevable}" disabled="true" title="#{taxeTrimController.redevable}"/>
                         <p:outputLabel value="categorie" />
-                        <p:inputText id="categorie" placeholder="#{localeItem}" disabled="true" title="#{localeItem}"/>
+                        <p:inputText id="categorie" placeholder="#{taxeTrimController.selected.locale.categorie}" disabled="true" title="#{taxeTrimController.selected.locale.categorie}"/>
 
                         <p:outputLabel value="#{bundle.CreateTaxeTrimLabel_montantRetard}" for="montantRetard" />
                         <p:inputText id="montantRetard" value="#{taxeTrimController.selected.montantRetard}" title="#{bundle.CreateTaxeTrimTitle_montantRetard}" />

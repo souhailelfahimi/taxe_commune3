@@ -27,8 +27,7 @@ import service.QuartierFacade;
 @Named("rueController")
 @SessionScoped
 public class RueController implements Serializable {
-
-    @EJB
+ @EJB
     private service.RueFacade ejbFacade;
     
     @EJB
@@ -53,6 +52,18 @@ public class RueController implements Serializable {
     }
     public void findRues(){
         quartier.setRues(ejbFacade.findByQuartier(quartier));
+    }
+    
+    
+    public void findAnnexs(Secteur secteur1){
+        secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur1));
+    }
+
+    public void findQuartiers(AnnexeAdministratif annexeAdministratif1){
+        annexeAdministratif.setQuartiers(quartierFacade.findByAnnexe(annexeAdministratif1));
+    }
+    public void findRues(Quartier quartier1){
+        quartier.setRues(ejbFacade.findByQuartier(quartier1));
     }
     public RueController() {
     }
