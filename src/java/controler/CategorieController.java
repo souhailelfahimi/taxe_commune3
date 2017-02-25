@@ -32,6 +32,9 @@ public class CategorieController implements Serializable {
     }
 
     public Categorie getSelected() {
+        if(selected==null){
+            selected=new Categorie();
+        }
         return selected;
     }
 

@@ -3,12 +3,14 @@ package controler;
 import bean.AnnexeAdministratif;
 import bean.Locale;
 import bean.Quartier;
+import bean.Redevable;
 import bean.Secteur;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
 import service.LocaleFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,40 +40,52 @@ public class LocaleController implements Serializable {
     @EJB
     private AnnexeAdministratifFacade annexeAdministratifFacade;
     private List<Locale> items = null;
+    private List<Locale> itemsRecherche;
+
     private Locale selected;
     private Quartier quartier;
     private AnnexeAdministratif annexeAdministratif;
     private Secteur secteur;
-    
-    public void findAnnexs(){
+
+    public void findByCreteria() {
+        itemsRecherche = ejbFacade.findByGerantOrProprietaire(selected);
+    }
+
+    public void findAnnexs() {
         secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur));
     }
 
-    public void findQuartiers(){
+    public void findQuartiers() {
         annexeAdministratif.setQuartiers(quartierFacade.findByAnnexe(annexeAdministratif));
     }
-    public void findRues(){
+
+    public void findRues() {
         quartier.setRues(rueFacade.findByQuartier(quartier));
     }
-    public RueFacade getRueFacade() {
-        if(rueFacade==null){
-        rueFacade=new RueFacade();
-        }
-        return rueFacade;
-    }
-    
-     public void setRueFacade(RueFacade rueFacade) {
-        this.rueFacade = rueFacade;
-    }
+
     public LocaleController() {
     }
 
     public Locale getSelected() {
+        if (selected == null) {
+            selected = new Locale();
+        }
         return selected;
     }
 
     public void setSelected(Locale selected) {
         this.selected = selected;
+    }
+
+    public List<Locale> getItemsRecherche() {
+        if (itemsRecherche == null) {
+            itemsRecherche = new ArrayList<>();
+        }
+        return itemsRecherche;
+    }
+
+    public void setItemsRecherche(List<Locale> itemsRecherche) {
+        this.itemsRecherche = itemsRecherche;
     }
 
     protected void setEmbeddableKeys() {
@@ -84,6 +98,22 @@ public class LocaleController implements Serializable {
         return ejbFacade;
     }
 
+    public LocaleFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(LocaleFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public RueFacade getRueFacade() {
+        return rueFacade;
+    }
+
+    public void setRueFacade(RueFacade rueFacade) {
+        this.rueFacade = rueFacade;
+    }
+
     public Locale prepareCreate() {
         selected = new Locale();
         initializeEmbeddableKey();
@@ -91,6 +121,7 @@ public class LocaleController implements Serializable {
     }
 
     public void create() {
+        getFacade().generateReference(selected.getRue(), selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LocaleCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -120,22 +151,24 @@ public class LocaleController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (null != persistAction) switch (persistAction) {
-                    case CREATE:
-                        if(getFacade().findByReference(selected).get(0)==null){
+                if (null != persistAction) {
+                    switch (persistAction) {
+                        case CREATE:
+//                        if(getFacade().findByReference(selected).get(0)==null){
                             getFacade().edit(selected);
-                        }else{
-                            JsfUtil.addErrorMessage("Locale existe deja dans la base avec ce Reference !!");
-                        }
-                        break;
-                    case UPDATE:
-                        getFacade().edit(selected);
-                        JsfUtil.addSuccessMessage(successMessage);
-                        break;
-                    default:
-                        getFacade().remove(selected);
-                        JsfUtil.addSuccessMessage(successMessage);
-                        break;
+//                        }else{
+                            JsfUtil.addSuccessMessage("Locale bien crée");
+//                        }
+                            break;
+                        case UPDATE:
+                            getFacade().edit(selected);
+                            JsfUtil.addSuccessMessage(successMessage);
+                            break;
+                        default:
+                            getFacade().remove(selected);
+                            JsfUtil.addSuccessMessage(successMessage);
+                            break;
+                    }
                 }
             } catch (EJBException ex) {
                 String msg = "";
@@ -217,8 +250,8 @@ public class LocaleController implements Serializable {
     }
 
     public QuartierFacade getQuartierFacade() {
-        if(quartierFacade==null){
-            quartierFacade=new QuartierFacade();
+        if (quartierFacade == null) {
+            quartierFacade = new QuartierFacade();
         }
         return quartierFacade;
     }
@@ -228,8 +261,8 @@ public class LocaleController implements Serializable {
     }
 
     public AnnexeAdministratifFacade getAnnexeAdministratifFacade() {
-        if(annexeAdministratifFacade==null){
-            annexeAdministratifFacade=new AnnexeAdministratifFacade();
+        if (annexeAdministratifFacade == null) {
+            annexeAdministratifFacade = new AnnexeAdministratifFacade();
         }
         return annexeAdministratifFacade;
     }
@@ -239,8 +272,8 @@ public class LocaleController implements Serializable {
     }
 
     public AnnexeAdministratif getAnnexeAdministratif() {
-        if(annexeAdministratif==null){
-            annexeAdministratif=new AnnexeAdministratif();
+        if (annexeAdministratif == null) {
+            annexeAdministratif = new AnnexeAdministratif();
         }
         return annexeAdministratif;
     }
@@ -250,8 +283,8 @@ public class LocaleController implements Serializable {
     }
 
     public Secteur getSecteur() {
-        if(secteur==null){
-            secteur=new Secteur();
+        if (secteur == null) {
+            secteur = new Secteur();
         }
         return secteur;
     }
@@ -260,6 +293,4 @@ public class LocaleController implements Serializable {
         this.secteur = secteur;
     }
 
-    
-    
 }

@@ -32,6 +32,9 @@ public class SecteurController implements Serializable {
     }
 
     public Secteur getSelected() {
+        if(selected==null){
+            selected=new Secteur();
+        }
         return selected;
     }
 

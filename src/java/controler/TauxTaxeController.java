@@ -32,6 +32,9 @@ public class TauxTaxeController implements Serializable {
     }
 
     public TauxTaxe getSelected() {
+        if(selected==null){
+            selected=new TauxTaxe();
+        }
         return selected;
     }
 

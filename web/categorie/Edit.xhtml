@@ -15,7 +15,7 @@
                         <p:outputLabel value="#{bundle.EditCategorieLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{categorieController.selected.nom}" title="#{bundle.EditCategorieTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{categorieController.update}" value="#{bundle.Save}" update="display,:CategorieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CategorieEditDialog');"/>
+                    <p:commandButton styleClass="ui-priority-primary" actionListener="#{categorieController.update}" value="#{bundle.Save}" update="display,:CategorieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CategorieEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="CategorieEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

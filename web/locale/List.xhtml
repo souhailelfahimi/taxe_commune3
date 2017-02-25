@@ -5,6 +5,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet name="/resources/css/bootstrap.css"/>
+        <h:outputScript name="/resources/js/jquery.js"/>
+        <h:outputScript name="/resources/js/bootstrap.js"/>
+    </h:head>
 
     <ui:composition template="/template.xhtml">
 
@@ -14,39 +19,41 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="LocaleListForm">
-                <p:panel header="#{bundle.ListLocaleTitle}">
+            <h:form id="LocaleListForm" style="padding-left: 15%;padding-right: 15%; background-color: #e6e6ff">
+               <!-- <p:panel header="#{bundle.ListLocaleTitle}" style="margin-top: 40px;">-->
+                <div class="table-responsive">
                     <p:dataTable id="datalist" value="#{localeController.items}" var="item"
                                  selectionMode="single" selection="#{localeController.selected}"
                                  paginator="true"
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
+                                 style="padding: 20px;" class="table table-striped"
                                  >
 
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-       <!--             <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListLocaleTitle_dernierTrimestrePaiement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dernierTrimestrePaiement}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListLocaleTitle_dernierAnneePaiement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dernierAnneePaiement}"/>
-                        </p:column>
-       -->
+                        <!--             <p:column>
+                                             <f:facet name="header">
+                                                 <h:outputText value="#{bundle.ListLocaleTitle_dernierTrimestrePaiement}"/>
+                                             </f:facet>
+                                             <h:outputText value="#{item.dernierTrimestrePaiement}"/>
+                                         </p:column>
+                                         <p:column>
+                                             <f:facet name="header">
+                                                 <h:outputText value="#{bundle.ListLocaleTitle_dernierAnneePaiement}"/>
+                                             </f:facet>
+                                             <h:outputText value="#{item.dernierAnneePaiement}"/>
+                                         </p:column>
+                        -->
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLocaleTitle_reference}"/>
                             </f:facet>
                             <h:outputText value="#{item.reference}"/>
                         </p:column>
-       
+
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLocaleTitle_proprietaire}"/>
@@ -65,7 +72,7 @@
                             </f:facet>
                             <h:outputText value="#{item.categorie.nom}"/>
                         </p:column>
-                         <p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLocaleTitle_rue}"/>
                             </f:facet>
@@ -89,25 +96,27 @@
                             </f:facet>
                             <h:outputText value="#{item.description}"/>
                         </p:column>
-                        
+
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLocaleTitle_id}"/>
                             </f:facet>
                             <h:outputText value="#{item.id}"/>
                         </p:column>
-                       
-                        
-                        
-                        
+
+
+
+
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{localeController.prepareCreate}" update=":LocaleCreateForm" oncomplete="PF('LocaleCreateDialog').show()"/>
+                            <p:commandButton class="btn btn-primary" id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{localeController.prepareCreate}" update=":LocaleCreateForm" oncomplete="PF('LocaleCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":LocaleViewForm" oncomplete="PF('LocaleViewDialog').show()" disabled="#{empty localeController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LocaleEditForm" oncomplete="PF('LocaleEditDialog').show()" disabled="#{empty localeController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{localeController.destroy}" update=":growl,datalist" disabled="#{empty localeController.selected}"/>
+                           
                         </f:facet>
                     </p:dataTable>
-                </p:panel>
+                </div>
+                <!--</p:panel>-->
             </h:form>
 
             <ui:include src="Create.xhtml"/>

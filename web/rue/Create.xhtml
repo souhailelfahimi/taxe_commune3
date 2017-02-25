@@ -47,7 +47,7 @@
                         
                        
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{rueController.create}" value="#{bundle.Save}" update="display,:RueListForm:datalist,:growl" oncomplete="handleSubmit(args,'RueCreateDialog');"/>
+                    <p:commandButton actionListener="#{rueController.create}" value="#{bundle.Save}" update="display,:RueListForm:datalist" oncomplete="handleSubmit(args,'RueCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="RueCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

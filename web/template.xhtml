@@ -7,8 +7,9 @@
 
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
-        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>       
         <h:outputScript library="js" name="jsfcrud.js"/>
+ 
     </h:head>
 
     <h:body>
@@ -34,6 +35,11 @@
                             <p:menuitem value="TaxeTrim" outcome="/taxeTrim/List.xhtml" />
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>
+                        <p:submenu label="Rechercher" icon="ui-icon-search">
+                            <p:menuitem value="Rechercher un redevable" outcome="/redevable/Search" icon="ui-icon-search"/>
+                            <p:menuitem value="Rechercher un locale" outcome="/locale/Search" icon="ui-icon-search"/>
+                        </p:submenu>
+                       
                     </p:menubar>
                 </h:form>
             </p:layoutUnit>

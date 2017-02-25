@@ -27,7 +27,8 @@ import service.QuartierFacade;
 @Named("rueController")
 @SessionScoped
 public class RueController implements Serializable {
- @EJB
+
+   @EJB
     private service.RueFacade ejbFacade;
     
     @EJB

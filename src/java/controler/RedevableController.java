@@ -6,6 +6,7 @@ import controler.util.JsfUtil.PersistAction;
 import service.RedevableFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,12 +27,19 @@ public class RedevableController implements Serializable {
     @EJB
     private service.RedevableFacade ejbFacade;
     private List<Redevable> items = null;
+    private List<Redevable> itemsAvaible;
     private Redevable selected;
+    public void findByRCorCIN(){
+        itemsAvaible=ejbFacade.findByCinOrRc(selected);       
+    }
 
     public RedevableController() {
     }
 
     public Redevable getSelected() {
+        if(selected==null){
+            selected=new Redevable();
+        }
         return selected;
     }
 
@@ -49,6 +57,18 @@ public class RedevableController implements Serializable {
         return ejbFacade;
     }
 
+    public List<Redevable> getItemsAvaible() {
+        if(itemsAvaible==null){
+            itemsAvaible=new ArrayList();
+        }
+        return itemsAvaible;
+    }
+
+    public void setItemsAvaible(List<Redevable> itemsAvaible) {
+        this.itemsAvaible = itemsAvaible;
+    }
+
+    
     public Redevable prepareCreate() {
         selected = new Redevable();
         initializeEmbeddableKey();

@@ -32,6 +32,10 @@ public class TauxTaxeRetardController implements Serializable {
     }
 
     public TauxTaxeRetard getSelected() {
+        if(selected==null){
+            selected=new TauxTaxeRetard();
+        }
+                
         return selected;
     }
 

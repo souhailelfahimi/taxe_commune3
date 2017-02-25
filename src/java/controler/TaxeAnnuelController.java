@@ -32,6 +32,9 @@ public class TaxeAnnuelController implements Serializable {
     }
 
     public TaxeAnnuel getSelected() {
+        if(selected==null){
+            selected=new TaxeAnnuel();
+        }
         return selected;
     }
 
