@@ -18,12 +18,15 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class AnnexeAdministratifFacade extends AbstractFacade<AnnexeAdministratif> {
-
-    @PersistenceContext(unitName = "projet_java_taxPU")
+ @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
 
     public List<AnnexeAdministratif> findBySecteur(Secteur secteur) {
         return em.createQuery("SELECT a FROM AnnexeAdministratif a WHERE a.secteur.id =" + secteur.getId()).getResultList();
+    }
+
+    public List<AnnexeAdministratif> findByName(String nom) {
+        return em.createQuery("SELECT a FROM AnnexeAdministratif a WHERE a.nom='" + nom + "'").getResultList();
     }
 
     @Override

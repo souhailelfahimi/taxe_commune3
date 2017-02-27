@@ -19,12 +19,17 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class QuartierFacade extends AbstractFacade<Quartier> {
 
+   
     @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
 
     public List<Quartier> findByAnnexe(AnnexeAdministratif administratif) {
         return em.createQuery("SELECT q FROM Quartier q WHERE q.annexeAdministratif.id =" + administratif.getId()).getResultList();
     }
+    public List<Quartier> findByName(String nom) {
+        return em.createQuery("SELECT q FROM Quartier q WHERE q.nom='" + nom + "'").getResultList();
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -33,5 +38,4 @@ public class QuartierFacade extends AbstractFacade<Quartier> {
     public QuartierFacade() {
         super(Quartier.class);
     }
-    
 }

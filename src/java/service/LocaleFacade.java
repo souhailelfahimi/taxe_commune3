@@ -48,16 +48,16 @@ public class LocaleFacade extends AbstractFacade<Locale> {
     public List<Locale> findByGerantOrProprietaire(Categorie categorie, Redevable redevable, String activite, String reference) {
         String requette = "SELECT l FROM Locale l WHERE 1=1";
 
-        if (activite != null) {
+        if (!activite.equals("")) {
             requette += SearchUtil.addConstraint("l", "activite", "=", activite);
         }
-        if (categorie.getId() != null) {
+        if (categorie != null) {
             requette += " AND l.categorie.id=" + categorie.getId();
         }
-        if (redevable.getId() != null) {
+        if (redevable != null) {
             requette += " AND l.proprietaire.id=" + redevable.getId();
         }
-        if (reference != null) {
+        if (!reference.equals("")) {
             requette += SearchUtil.addConstraint("l", "reference", "=", reference);
         }
 

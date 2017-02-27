@@ -27,10 +27,9 @@ import service.QuartierFacade;
 @Named("rueController")
 @SessionScoped
 public class RueController implements Serializable {
-
-   @EJB
+    @EJB
     private service.RueFacade ejbFacade;
-    
+
     @EJB
     private QuartierFacade quartierFacade;
     @EJB
@@ -40,32 +39,45 @@ public class RueController implements Serializable {
     private Quartier quartier;
     private AnnexeAdministratif annexeAdministratif;
     private Secteur secteur;
-    
-    
+    private String nomAnnex;
+    private String nomQuartier;
+    private String nomRue;
     
 
-    public void findAnnexs(){
+    public void findAnnexByName() {
+        secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findByName(nomAnnex));
+    }
+    public void findQuartierByName() {
+        annexeAdministratif.setQuartiers(quartierFacade.findByName(nomQuartier));
+    }
+    public void findRueByName() {
+        quartier.setRues(ejbFacade.findByName(nomRue));
+    }
+
+    public void findAnnexs() {
         secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur));
     }
 
-    public void findQuartiers(){
+    public void findQuartiers() {
         annexeAdministratif.setQuartiers(quartierFacade.findByAnnexe(annexeAdministratif));
     }
-    public void findRues(){
+
+    public void findRues() {
         quartier.setRues(ejbFacade.findByQuartier(quartier));
     }
-    
-    
-    public void findAnnexs(Secteur secteur1){
+
+    public void findAnnexs(Secteur secteur1) {
         secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur1));
     }
 
-    public void findQuartiers(AnnexeAdministratif annexeAdministratif1){
+    public void findQuartiers(AnnexeAdministratif annexeAdministratif1) {
         annexeAdministratif.setQuartiers(quartierFacade.findByAnnexe(annexeAdministratif1));
     }
-    public void findRues(Quartier quartier1){
+
+    public void findRues(Quartier quartier1) {
         quartier.setRues(ejbFacade.findByQuartier(quartier1));
     }
+
     public RueController() {
     }
 
@@ -201,8 +213,8 @@ public class RueController implements Serializable {
     }
 
     public Quartier getQuartier() {
-        if(quartier==null){
-            quartier=new Quartier();
+        if (quartier == null) {
+            quartier = new Quartier();
         }
         return quartier;
     }
@@ -212,8 +224,8 @@ public class RueController implements Serializable {
     }
 
     public AnnexeAdministratif getAnnexeAdministratif() {
-        if (annexeAdministratif==null) {
-            annexeAdministratif=new AnnexeAdministratif();
+        if (annexeAdministratif == null) {
+            annexeAdministratif = new AnnexeAdministratif();
         }
         return annexeAdministratif;
     }
@@ -223,8 +235,8 @@ public class RueController implements Serializable {
     }
 
     public Secteur getSecteur() {
-        if(secteur==null){
-            secteur=new Secteur();
+        if (secteur == null) {
+            secteur = new Secteur();
         }
         return secteur;
     }
@@ -247,6 +259,30 @@ public class RueController implements Serializable {
 
     public void setAnnexeAdministratifFacade(AnnexeAdministratifFacade annexeAdministratifFacade) {
         this.annexeAdministratifFacade = annexeAdministratifFacade;
+    }
+
+    public String getNomAnnex() {
+        return nomAnnex;
+    }
+
+    public void setNomAnnex(String nomAnnex) {
+        this.nomAnnex = nomAnnex;
+    }
+
+    public String getNomQuartier() {
+        return nomQuartier;
+    }
+
+    public void setNomQuartier(String nomQuartier) {
+        this.nomQuartier = nomQuartier;
+    }
+
+    public String getNomRue() {
+        return nomRue;
+    }
+
+    public void setNomRue(String nomRue) {
+        this.nomRue = nomRue;
     }
 
     
