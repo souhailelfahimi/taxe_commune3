@@ -82,6 +82,9 @@ public class RueController implements Serializable {
     }
 
     public Rue getSelected() {
+         if(selected==null){
+            selected=new Rue();
+        }
         return selected;
     }
 
