@@ -2,6 +2,29 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/locale/Search.xhtml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/controler/util/SessionUtil.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/bean/Device.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/bean/User.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/user/login.png</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/index.xhtml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/secteur/Create.xhtml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/controler/util/HashageUtil.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/controler/util/SearchUtil.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/tax_commune%20(1).sql</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/user/Welcome.xhtml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/service/RedevableFacade.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/resources/css/bootstrap.css</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/controler/UserController.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/template.xhtml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/src/java/service/UserFacade.java</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/user/Login.xhtml</file>
+            <file>file:/C:/Users/ayoub/Documents/NetBeansProjects/taxe_communev11/web/user/test.xhtml</file>
+        </group>
         <group/>
     </open-files>
 </project-private>

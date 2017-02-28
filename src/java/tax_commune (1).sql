@@ -323,14 +323,14 @@ CREATE TABLE IF NOT EXISTS `taxetrim` (
 -- Structure de la table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+/*CREATE TABLE IF NOT EXISTS `user` (
   `LOGIN` varchar(255) NOT NULL,
   `BLOCKED` int(11) DEFAULT NULL,
   `NOM` varchar(255) DEFAULT NULL,
   `PASSWORD` varchar(255) DEFAULT NULL,
   `PRENOM` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`LOGIN`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;*/
 
 --
 -- Contraintes pour les tables exportées
