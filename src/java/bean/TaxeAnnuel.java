@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -27,10 +28,30 @@ public class TaxeAnnuel implements Serializable {
     private Double taxeTotale;
     @OneToMany(mappedBy = "taxeAnnuel")
     private List<TaxeTrim> taxeTrims;
+    private int annee;
+    @ManyToOne
+    private Locale locale;
 
     public Double getTaxeTotale() {
         return taxeTotale;
     }
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+    
 
     public void setTaxeTotale(Double taxeTotale) {
         this.taxeTotale = taxeTotale;

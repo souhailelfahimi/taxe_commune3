@@ -6,12 +6,14 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
  *
- * @author ayoub
+ * @author moulaYounes
  */
 @Entity
 public class User implements Serializable {
@@ -20,10 +22,48 @@ public class User implements Serializable {
     @Id
     private String login;
     private String password;
-    private int blocked;
     private String nom;
     private String prenom;
+    private String email;
+    private String tel;
+    private int blocked;
+    private int nbrCnx;
+    private boolean admin;
     
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admiin) {
+        this.admin = admiin;
+    }
+
+    public User(String login) {
+        this.login = login;
+    }
+
+    public User() {
+
+    }
+    
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getNom() {
         return nom;
     }
@@ -39,18 +79,21 @@ public class User implements Serializable {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
-    
-    
 
-    public User() {
+    public String getEmail() {
+        return email;
     }
 
-    public String getPassword() {
-        return password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public int getBlocked() {
@@ -61,44 +104,48 @@ public class User implements Serializable {
         this.blocked = blocked;
     }
 
-    public User(String id, String password, int blocked) {
-        this.login = id;
-        this.password = password;
-        this.blocked = blocked;
+    public int getNbrCnx() {
+        return nbrCnx;
     }
+
+    public void setNbrCnx(int nbrCnx) {
+        this.nbrCnx = nbrCnx;
+    }
+
     
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+    public void setAdmiin(boolean admiin) {
+        this.admin = admiin;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (login != null ? login.hashCode() : 0);
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.login);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the login fields are not set
-        if (!(object instanceof User)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        User other = (User) object;
-        if ((this.login == null && other.login != null) || (this.login != null && !this.login.equals(other.login))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.login, other.login)) {
             return false;
         }
         return true;
     }
 
+    
+    
     @Override
     public String toString() {
-        return login ;
+        return login;
     }
-    
 }

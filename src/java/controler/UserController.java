@@ -47,7 +47,7 @@ public class UserController implements Serializable {
         int res1=(int) res[0];
         if(res1==1){
             JsfUtil.addSuccessMessage("Welcome!!!!");
-            return "Welcome";
+            return "/user/test";
         }
         System.out.println("blokeddddddddddd");
         JsfUtil.addErrorMessage("user name ou password incorrect");
