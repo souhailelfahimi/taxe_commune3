@@ -41,12 +41,7 @@
                                         </f:facet>
                                         <h:outputText value="#{item.nomSecteur}"/>
                                     </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListSecteurTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
-                                    </p:column>
+                                    
                                     <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Action"/>
@@ -90,21 +85,6 @@
                                         </f:facet>
                                         <h:outputText value="#{item.abreviation}"/>
                                     </p:column>
-
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_secteur}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.secteur.nomSecteur}"/>
-                                    </p:column>
-
-
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
-                                    </p:column>
                                     <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Action"/>
@@ -120,8 +100,7 @@
                             </p:panel>
                         </h:form>
                     </td>
-                </tr>
-                <tr>
+                
                     <td>
 
 
@@ -149,18 +128,6 @@
                                             <h:outputText value="#{bundle.ListQuartierTitle_nom}"/>
                                         </f:facet>
                                         <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListQuartierTitle_annexeAdministratif}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.annexeAdministratif.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListQuartierTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
                                     </p:column>
                                     <p:column>
                                         <f:facet name="header">
@@ -204,18 +171,6 @@
                                             <h:outputText value="#{bundle.ListRueTitle_nom}"/>
                                         </f:facet>
                                         <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListRueTitle_quartier}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.quartier.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListRueTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
                                     </p:column>
                                     <p:column>
                                         <f:facet name="header">

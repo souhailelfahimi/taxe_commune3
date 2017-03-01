@@ -26,6 +26,7 @@ public class TaxeAnnuel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double taxeTotale;
+    private int nbrTrimesterPaye;
     @OneToMany(mappedBy = "taxeAnnuel")
     private List<TaxeTrim> taxeTrims;
     private int annee;
@@ -51,13 +52,11 @@ public class TaxeAnnuel implements Serializable {
     public void setLocale(Locale locale) {
         this.locale = locale;
     }
-    
 
     public void setTaxeTotale(Double taxeTotale) {
         this.taxeTotale = taxeTotale;
     }
 
-    
     public TaxeAnnuel() {
     }
 
@@ -68,7 +67,6 @@ public class TaxeAnnuel implements Serializable {
     public void setTaxeTrims(List<TaxeTrim> taxeTrims) {
         this.taxeTrims = taxeTrims;
     }
-    
 
     public Long getId() {
         return id;
@@ -102,5 +100,13 @@ public class TaxeAnnuel implements Serializable {
     public String toString() {
         return "bean.TaxeAnnuel[ id=" + id + " ]";
     }
-    
+
+    public int getNbrTrimesterPaye() {
+        return nbrTrimesterPaye;
+    }
+
+    public void setNbrTrimesterPaye(int nbrTrimesterPaye) {
+        this.nbrTrimesterPaye = nbrTrimesterPaye;
+    }
+
 }

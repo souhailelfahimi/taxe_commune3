@@ -21,15 +21,20 @@ import javax.persistence.Temporal;
 @Entity
 public class TaxeTrim implements Serializable {
 
+   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
     private Double montantTotal;
     private Double montantRetard;
+    private Double premierMoisRetard;
+    private Double autresMoisRetard;
     private Double montant;
+    private int nbrMoisRetard;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datePaiement=new Date();
+    private int numeroTrim;
     private int nombreNuit;
     private int nombreClients;
     @ManyToOne
@@ -38,7 +43,6 @@ public class TaxeTrim implements Serializable {
     private Redevable redevable;
     @ManyToOne
     private TaxeAnnuel taxeAnnuel;
-    
     @ManyToOne
     private User user;
     
@@ -101,6 +105,39 @@ public class TaxeTrim implements Serializable {
     public void setMontantTotal(Double montantTotal) {
         this.montantTotal = montantTotal;
     }
+
+    public Double getPremierMoisRetard() {
+        return premierMoisRetard;
+    }
+
+    public void setPremierMoisRetard(Double premierMoisRetard) {
+        this.premierMoisRetard = premierMoisRetard;
+    }
+
+    public Double getAutresMoisRetard() {
+        return autresMoisRetard;
+    }
+
+    public void setAutresMoisRetard(Double autresMoisRetard) {
+        this.autresMoisRetard = autresMoisRetard;
+    }
+
+    public int getNbrMoisRetard() {
+        return nbrMoisRetard;
+    }
+
+    public void setNbrMoisRetard(int nbrMoisRetard) {
+        this.nbrMoisRetard = nbrMoisRetard;
+    }
+
+    public int getNumeroTrim() {
+        return numeroTrim;
+    }
+
+    public void setNumeroTrim(int numeroTrim) {
+        this.numeroTrim = numeroTrim;
+    }
+    
 
     public TaxeTrim(Double montantTotal, Double montantRetard, Double montant, int nombreNuit, int nombreClients) {
         this.montantTotal = montantTotal;

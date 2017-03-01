@@ -31,6 +31,7 @@ public class Locale implements Serializable {
     private String description;
     @ManyToOne
     private Redevable proprietaire;
+    @ManyToOne
     private Redevable gerant;
     private String reference;
     private String activite;
