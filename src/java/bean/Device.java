@@ -6,12 +6,11 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,8 +26,8 @@ public class Device implements Serializable {
     private String adresseIP;
     private String adresseMac;
     private String nom;
-    @OneToMany
-    private List<User> users; 
+    @ManyToOne
+    private User user; 
     
 
     public Long getId() {
@@ -63,12 +62,12 @@ public class Device implements Serializable {
         this.nom = nom;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

@@ -22,9 +22,7 @@
             <h:form id="RedevableListForm">
                 <p:fieldset legend="Search:">
 
-                    <p:panelGrid columns="2">
-
-
+                    <p:panelGrid columns="7">
                         <p:outputLabel value="Rc:" for="rc" />
                         <p:inputText id="rc" value="#{redevableController.selected.rc}" title="Rc" />
                         <p:outputLabel value="Cin:" for="cin" />
@@ -32,12 +30,30 @@
 
                         <p:outputLabel value="Pattente:" for="pattente" />
                         <p:inputText id="pattente" value="#{redevableController.selected.pattente}" title="Pattente" />
-                        <br></br>
                         <p:commandButton value="Search" actionListener="#{redevableController.findByRCorCIN()}" update="datalist"></p:commandButton>
                     </p:panelGrid>
                 </p:fieldset>
+                <br/><br/>
                 <p:fieldset legend="List">
                     <p:dataTable value="#{redevableController.itemsAvaible}" var="item" id="datalist">
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Rc"/>
+                            </f:facet>
+                             <h:outputText value="#{item.rc==''?'----_----':item.rc}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pattente"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pattente}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cin"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cin==''?'----_----':item.cin}"/>
+                        </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
@@ -54,7 +70,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Nature"/>
                             </f:facet>
-                            <h:outputText value="#{item.nature}"/>
+                            <h:outputText value="#{item.nature==1? 'Gerant':'Proprietaire'}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -62,18 +78,7 @@
                             </f:facet>
                             <h:outputText value="#{item.adresse}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Rc"/>
-                            </f:facet>
-                            <h:outputText value="#{item.rc}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Cin"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cin}"/>
-                        </p:column>
+                       
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Email"/>
@@ -86,18 +91,8 @@
                             </f:facet>
                             <h:outputText value="#{item.fax}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Pattente"/>
-                            </f:facet>
-                            <h:outputText value="#{item.pattente}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Id"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
+                       
+                       
                     </p:dataTable>
                 </p:fieldset>
                 <!--</p:panel>-->
@@ -105,17 +100,4 @@
         </ui:define>
     </ui:composition>
 
-    <form class="navbar-form navbar-left">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search"/>
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                    <i class="glyphicon glyphicon-search"></i>
-                    <i class="glyphicon glyphicon-search"></i>
-                    <i class="glyphicon glyphicon-search"></i>
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
 </html>

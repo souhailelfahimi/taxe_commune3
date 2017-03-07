@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -29,6 +30,8 @@ public class User implements Serializable {
     private int blocked;
     private int nbrCnx;
     private boolean admin;
+    @OneToMany(mappedBy = "user")
+    private List<Device> devices;
     
 
     public boolean isAdmin() {

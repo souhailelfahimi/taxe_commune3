@@ -1,13 +1,18 @@
 package controler;
 
-import bean.Locale;
+import bean.AnnexeAdministratif;
+import bean.Categorie;
+import bean.Quartier;
 import bean.Redevable;
+import bean.Rue;
+import bean.Secteur;
 import bean.TaxeTrim;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
 import service.TaxeTrimFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,8 +25,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.AnnexeAdministratifFacade;
 import service.LocaleFacade;
+import service.QuartierFacade;
 import service.RedevableFacade;
+import service.RueFacade;
+import service.SecteurFacade;
 
 @Named("taxeTrimController")
 @SessionScoped
@@ -38,7 +47,53 @@ public class TaxeTrimController implements Serializable {
     private String cin;
     private String rc;
     private Redevable redevable;
+     private int annee;
+     
+      @EJB
+    private RueFacade rueFacade;
+    @EJB
+    private SecteurFacade secteurFacade;
+    @EJB
+    private QuartierFacade quartierFacade;
+    @EJB
+    private AnnexeAdministratifFacade annexeAdministratifFacade;
+   
+    
 
+    //attribut de recherche
+    private Date dateMin;
+    private Date dateMax;
+    private Double montantMin;
+    private Double montantMax;
+    private int nombreNuitMin;
+    private int nombreNuitMax;
+    private String localeName;
+    private String redevableName;
+    private Quartier quartier;
+    private AnnexeAdministratif annexeAdministratif;
+    private Secteur secteur;
+    private Rue rue;
+    private Categorie categorie;
+
+    public void findByCreteria()
+    {
+        //appelle 3la lmethode dyal recherch     
+        items=ejbFacade.findLocaleByCretere(dateMin, dateMax, montantMin, montantMax, nombreNuitMin, nombreNuitMax, localeName, redevableName,categorie,secteur,annexeAdministratif,quartier,rue);
+    }
+    public void findAnnexs() {
+        secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur));
+    }
+
+    public void findQuartiers() {
+        annexeAdministratif.setQuartiers(quartierFacade.findByAnnexe(annexeAdministratif));
+    }
+
+    public void findRues() {
+        quartier.setRues(rueFacade.findByQuartier(quartier));
+    }
+
+ 
+    
     public void findRedevableByCin() {
         redevable.setLocales(localeFacade.findByRedevableCin(cin));
         redevable = findRedevable();
@@ -51,8 +106,9 @@ public class TaxeTrimController implements Serializable {
 
     public Redevable findRedevable() {
         Redevable redevable1 = new Redevable(rc, cin);
-        if (!redevableFacade.findByCinOrRc(redevable1).isEmpty()) {
-            return redevableFacade.findByCinOrRc(redevable1).get(0);
+        List<Redevable>lst=redevableFacade.findByCinOrRc(redevable1);
+        if (!lst.isEmpty()) {
+            return lst.get(0);
         } else {
             return null;
         }
@@ -241,5 +297,158 @@ public class TaxeTrimController implements Serializable {
     public void setRedevable(Redevable redevable) {
         this.redevable = redevable;
     }
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public TaxeTrimFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(TaxeTrimFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public RueFacade getRueFacade() {
+        return rueFacade;
+    }
+
+    public void setRueFacade(RueFacade rueFacade) {
+        this.rueFacade = rueFacade;
+    }
+
+    public SecteurFacade getSecteurFacade() {
+        return secteurFacade;
+    }
+
+    public void setSecteurFacade(SecteurFacade secteurFacade) {
+        this.secteurFacade = secteurFacade;
+    }
+
+    public QuartierFacade getQuartierFacade() {
+        return quartierFacade;
+    }
+
+    public void setQuartierFacade(QuartierFacade quartierFacade) {
+        this.quartierFacade = quartierFacade;
+    }
+
+    public AnnexeAdministratifFacade getAnnexeAdministratifFacade() {
+        return annexeAdministratifFacade;
+    }
+
+    public void setAnnexeAdministratifFacade(AnnexeAdministratifFacade annexeAdministratifFacade) {
+        this.annexeAdministratifFacade = annexeAdministratifFacade;
+    }
+
+    public Date getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(Date dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public Date getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(Date dateMax) {
+        this.dateMax = dateMax;
+    }
+
+    public Double getMontantMin() {
+        return montantMin;
+    }
+
+    public void setMontantMin(Double montantMin) {
+        this.montantMin = montantMin;
+    }
+
+    public Double getMontantMax() {
+        return montantMax;
+    }
+
+    public void setMontantMax(Double montantMax) {
+        this.montantMax = montantMax;
+    }
+
+    public int getNombreNuitMin() {
+        return nombreNuitMin;
+    }
+
+    public void setNombreNuitMin(int nombreNuitMin) {
+        this.nombreNuitMin = nombreNuitMin;
+    }
+
+    public int getNombreNuitMax() {
+        return nombreNuitMax;
+    }
+
+    public void setNombreNuitMax(int nombreNuitMax) {
+        this.nombreNuitMax = nombreNuitMax;
+    }
+
+    public String getLocaleName() {
+        return localeName;
+    }
+
+    public void setLocaleName(String localeName) {
+        this.localeName = localeName;
+    }
+
+    public String getRedevableName() {
+        return redevableName;
+    }
+
+    public void setRedevableName(String redevableName) {
+        this.redevableName = redevableName;
+    }
+
+    public Quartier getQuartier() {
+        return quartier;
+    }
+
+    public void setQuartier(Quartier quartier) {
+        this.quartier = quartier;
+    }
+
+    public AnnexeAdministratif getAnnexeAdministratif() {
+        return annexeAdministratif;
+    }
+
+    public void setAnnexeAdministratif(AnnexeAdministratif annexeAdministratif) {
+        this.annexeAdministratif = annexeAdministratif;
+    }
+
+    public Secteur getSecteur() {
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
+
+    public Rue getRue() {
+        return rue;
+    }
+
+    public void setRue(Rue rue) {
+        this.rue = rue;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+    
 
 }
