@@ -14,6 +14,7 @@ import bean.TaxeTrim;
 import controler.util.SearchUtil;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +28,10 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
 
     @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
-
+    @EJB
+    TauxTaxeFacade tauxTaxeFacade;
+    @EJB
+    TauxTaxeRetardFacade tauxTaxeRetardFacade;
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -107,6 +111,13 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
 
         }
     }
+    
+//    public void calculeTaxe(TaxeTrim taxeTrim)
+//    {
+//        double tauxNormal=tauxTaxeFacade.findTauxByCategorie(taxeTrim.getLocale().getCategorie());
+//        double tauxRetard=tauxTaxeRetardFacade.
+//        
+//    }
     
     public void clone(TaxeTrim taxeTrimSource, TaxeTrim taxeTrimDestaination) {
         taxeTrimDestaination.setId(taxeTrimSource.getId());

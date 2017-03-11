@@ -5,6 +5,7 @@
  */
 package service;
 
+import bean.Categorie;
 import bean.TauxTaxe;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,6 +29,7 @@ public class TauxTaxeFacade extends AbstractFacade<TauxTaxe> {
     public TauxTaxeFacade() {
         super(TauxTaxe.class);
     }
+
     public void clone(TauxTaxe tauxTaxeSource, TauxTaxe tauxTaxeDestaination) {
         tauxTaxeDestaination.setId(tauxTaxeSource.getId());
         tauxTaxeDestaination.setCategorie(tauxTaxeSource.getCategorie());
@@ -40,6 +42,14 @@ public class TauxTaxeFacade extends AbstractFacade<TauxTaxe> {
         clone(tauxTaxe, cloned);
         return cloned;
     }
-    
-    
+
+    public Double findTauxByCategorie(Categorie categorie) {
+        if (categorie != null && categorie.getId() != null) {
+            return (double) em.createQuery("SELECT t.taux FROM TauxTaxe t WHERE t.categorie.id='" + categorie.getId() + "'").getSingleResult();
+        } else {
+            return null;
+        }
+
+    }
+
 }
