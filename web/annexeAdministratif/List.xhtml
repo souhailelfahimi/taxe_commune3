@@ -14,7 +14,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="AnnexeAdministratifListForm">
+            <h:form id="AnnexeAdministratifListForm" style="padding-left: 15%;padding-right:15%; background-color: #eee6ff ;text-align: center">
                 <p:panel header="#{bundle.ListAnnexeAdministratifTitle}">
                     <p:dataTable id="datalist" value="#{annexeAdministratifController.items}" var="item"
                                  selectionMode="single" selection="#{annexeAdministratifController.selected}"
@@ -50,12 +50,7 @@
                         </p:column>
 
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
+                      
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{annexeAdministratifController.prepareCreate}" update=":AnnexeAdministratifCreateForm" oncomplete="PF('AnnexeAdministratifCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":AnnexeAdministratifViewForm" oncomplete="PF('AnnexeAdministratifViewDialog').show()" disabled="#{empty annexeAdministratifController.selected}"/>

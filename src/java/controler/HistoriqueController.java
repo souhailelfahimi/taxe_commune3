@@ -1,11 +1,14 @@
 package controler;
 
 import bean.Historique;
+import bean.User;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
+import controler.util.SessionUtil;
 import service.HistoriqueFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,6 +30,17 @@ public class HistoriqueController implements Serializable {
     private service.HistoriqueFacade ejbFacade;
     private List<Historique> items = null;
     private Historique selected;
+    
+    
+    
+    //crreation d'un historique de deconnections ali
+    public  String deconnection(){
+        User user=SessionUtil.getConnectedUser();
+        SessionUtil.unSetUser(user);
+        selected=new Historique(new Date(),2,user);
+        ejbFacade.create(selected);
+        return "/faces/index";
+    }
 
     public HistoriqueController() {
     }

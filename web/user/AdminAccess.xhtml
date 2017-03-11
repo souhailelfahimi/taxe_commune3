@@ -5,31 +5,26 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <ui:composition template="/template.xhtml">
-            <ui:define name="body">
+   
+    
+        <ui:composition >
+            <p:dialog id="accessDlg" widgetVar="AccessDialog" modal="true" resizable="false" appendTo="@(body)" header="Access Admin ">
                     <h:form>
                         <p:fieldset legend="Login as admin">
                             <h1><h:outputText value="Connect as admin"/></h1>
+                             <h:panelGroup id="display">
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="Login:" for="login" />
                                 <p:inputText id="login" value="#{userController.selected.login}" title="Login" />
                                 <p:outputLabel value="Password:" for="password" />
                                 <p:password id="password" value="#{userController.selected.password}" title="Password" />
                             </p:panelGrid>
-                            <p:commandButton action="#{userController.connectAsAdmin()}" value="SUBMI AS ADMIN" ></p:commandButton>
-
+                            <p:commandButton action="#{userController.connectAsAdmin()}" value="SUBMI AS ADMIN" update="display" oncomplete="handleSubmit(args, 'AccessDialog');" ></p:commandButton>
+                              <p:commandButton value="#{bundle.Cancel}" onclick="AccessDialog.hide()"/>
+                             </h:panelGroup>
                         </p:fieldset>
                     </h:form>
-
-            </ui:define>
-
-
+            </p:dialog>
         </ui:composition>
-
-    </h:body>
 </html>
 

@@ -11,7 +11,7 @@
             <h:form id="TaxeTrimListForm">
                 <p:fieldset legend="Rechercher des taxeTrime par différents critères:">
 
-                    <p:panelGrid columns="10">
+                    <p:panelGrid columns="10" >
                         <p:outputLabel value="montantMin:" for="montantMin" />
                         <p:inputText id="montantMin" value="#{taxeTrimController.montantMin}"  />
                         <p:outputLabel value="montantMax:" for="montantMax" />
@@ -69,8 +69,8 @@
                         <p:outputLabel value="Locale Référence:" for="localeName" />
                         <p:inputText id="localeName" value="#{taxeTrimController.localeName}"  />
                         <p:outputLabel value="DateMin:" for="dateMin" />
-                        <p:calendar id="dateMin" pattern="MM/dd/yyyy" value="#{taxeTrimController.dateMin}"  showOn="button"/>
-                        <p:outputLabel value="DateMin:" for="dateMax" />
+                        <p:calendar id="dateMin" pattern="MM/dd/yyyy" value="#{taxeTrimController.dateMin}"  showOn="button" />
+                        <p:outputLabel value="DateMin:" for="dateMax"  />
                         <p:calendar id="dateMax" pattern="MM/dd/yyyy" value="#{taxeTrimController.dateMax}" showOn="button"/>
                     </p:panelGrid>
                     <div align="center">

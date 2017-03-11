@@ -13,7 +13,6 @@ import bean.Redevable;
 import bean.Rue;
 import bean.Secteur;
 import controler.util.SearchUtil;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,6 +36,9 @@ public class LocaleFacade extends AbstractFacade<Locale> {
     @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
 
+     public List<String> findAllActivities(){
+        return em.createQuery("SELECT distinct(l.activite) FROM Locale l").getResultList();
+    }
     public List<Locale> findByRedevableCin(String redevable) {
         return em.createQuery("SELECT l FROM Locale l WHERE l.proprietaire.cin='" + redevable + "' OR l.gerant.cin='" + redevable + "'").getResultList();
     }

@@ -1,11 +1,13 @@
 package controler;
 
 import bean.Categorie;
+import bean.Journal;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
 import service.CategorieFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

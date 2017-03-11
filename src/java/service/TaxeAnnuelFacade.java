@@ -5,7 +5,9 @@
  */
 package service;
 
+import bean.Locale;
 import bean.TaxeAnnuel;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +30,34 @@ public class TaxeAnnuelFacade extends AbstractFacade<TaxeAnnuel> {
     public TaxeAnnuelFacade() {
         super(TaxeAnnuel.class);
     }
-     public void clone(TaxeAnnuel taxeAnnuelSource, TaxeAnnuel taxeAnnuelDestaination) {
+
+    public void create(Locale locale, int annee) {
+        TaxeAnnuel taxeAnnuel = findByLocaleAndAnnee(locale, annee);
+        System.out.println("search taxeAnnuel");
+        if (taxeAnnuel == null) {
+            System.out.println("searchinh nullllll");
+            taxeAnnuel=new TaxeAnnuel();
+            taxeAnnuel.setAnnee(annee);
+            taxeAnnuel.setNbrTrimesterPaye(1);
+            taxeAnnuel.setLocale(locale);
+            create(taxeAnnuel);
+            System.out.println("tcriyat taxeannuell");
+        }
+    }
+
+    public TaxeAnnuel findByLocaleAndAnnee(Locale locale, int annee) {
+        String requette = "SELECT tax FROM TaxeAnnuel tax where 1=1";
+        requette += " AND tax.annee =" + annee;
+        requette += " AND tax.locale.id =" + locale.getId();
+        List<TaxeAnnuel> list = em.createQuery(requette).getResultList();
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public void clone(TaxeAnnuel taxeAnnuelSource, TaxeAnnuel taxeAnnuelDestaination) {
         taxeAnnuelDestaination.setId(taxeAnnuelSource.getId());
         taxeAnnuelDestaination.setAnnee(taxeAnnuelSource.getAnnee());
         taxeAnnuelDestaination.setLocale(taxeAnnuelSource.getLocale());
@@ -42,5 +71,5 @@ public class TaxeAnnuelFacade extends AbstractFacade<TaxeAnnuel> {
         clone(taxeAnnuel, cloned);
         return cloned;
     }
-    
+
 }

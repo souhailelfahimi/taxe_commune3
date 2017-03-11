@@ -7,6 +7,7 @@ package service;
 
 import bean.Quartier;
 import bean.Rue;
+import controler.util.SearchUtil;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,8 +24,8 @@ public class RueFacade extends AbstractFacade<Rue> {
     private EntityManager em;
 
     public List<Rue> findByQuartier(Quartier quartier) {
-        if (quartier != null) {
-            return em.createQuery("SELECT r FROM Rue r WHERE r.quartier.id ='" + quartier.getId() + "'").getResultList();
+        if (quartier != null && quartier.getId() != null) {
+            return em.createQuery("SELECT r FROM Rue r WHERE r.quartier.id=" + quartier.getId()).getResultList();
         } else {
             return null;
         }

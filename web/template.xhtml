@@ -6,22 +6,29 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pm="http://primefaces.org/mobile">
 
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
+    <link src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+
+
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>       
         <h:outputScript library="js" name="jsfcrud.js"/>
     </h:head>
     <h:body>
-        
+
         <p:growl id="growl" life="3000" />
 
         <p:layout fullPage="true">
-            
+
             <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">
                 <h:form id="menuForm">
                     <p:menubar>
                         <p:menuitem value="#{bundle.Home}" style="width:100px" outcome="/user/Home" icon="ui-icon-home"/>
                         <p:submenu label="Systeme d'adressage" style="width: 150px">
+                            <p:menuitem value="Adressage" outcome="/search/Adrressage" />
                             <p:menuitem value="AnnexeAdministratif" outcome="/annexeAdministratif/List.xhtml" />
                             <p:menuitem value="Quartier" outcome="/quartier/List.xhtml" />
                             <p:menuitem value="Redevable" outcome="/redevable/List.xhtml" />
@@ -40,16 +47,16 @@
                         <p:submenu label="Admin Manager" style="width: 150px;">
                             <p:menuitem value="User" outcome="/user/AdminAccess.xhtml" />
                             <p:menuitem value="Journal des actions" outcome="/journal/AdminAccess.xhtml" />
-                            <p:menuitem value="Historiques des connections" outcome="/historique/AdminAccess.xhtml" style="width: 170px;" />
+                            <p:menuitem value="Historique des connections" outcome="/historique/AdminAccess.xhtml"  />
                             <p:menuitem value="Devices" outcome="/device/AdminAccess.xhtml" />
                         </p:submenu>
-                        <p:submenu label="Recherchers sur :" icon="ui-icon-search" style="width: 150px">
-                            <p:menuitem value="Adressage" outcome="/search/Adrressage" />
+                        <p:submenu label="Recherchers :" icon="ui-icon-search" style="width: 150px">
                             <p:menuitem value="redevable" action="/search/SearchRedevable" />
                             <p:menuitem value="locale" outcome="/search/SearchLocale" />
+                            <p:menuitem value=" taxeTrim " outcome="/search/SearchTaxeTrim.xhtml" />
+                            <p:menuitem value="Locale" outcome="/locale/List.xhtml"  />
+
                         </p:submenu>
-                        <p:menuitem value=" taxeTrim " outcome="/search/SearchTaxeTrim.xhtml" style="width:150px;"/>
-                        <p:menuitem value="Locale" outcome="/locale/List.xhtml" style="width:150px;" />
 
                     </p:menubar>
                 </h:form>

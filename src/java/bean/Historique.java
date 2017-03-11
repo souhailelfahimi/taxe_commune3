@@ -33,6 +33,17 @@ public class Historique implements Serializable {
     @OneToOne
     private Device device;
 
+    public Historique(Date dateConnection, int type, User user) {
+        this.dateConnection = dateConnection;
+        this.type = type;
+        this.user = user;
+    }
+
+    public Historique() {
+    }
+
+  
+
     public int getType() {
         return type;
     }

@@ -7,6 +7,7 @@ package service;
 
 import bean.AnnexeAdministratif;
 import bean.Secteur;
+import controler.util.SearchUtil;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,11 +19,16 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class AnnexeAdministratifFacade extends AbstractFacade<AnnexeAdministratif> {
- @PersistenceContext(unitName = "projet_java_taxPU")
+
+    @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
 
     public List<AnnexeAdministratif> findBySecteur(Secteur secteur) {
-        return em.createQuery("SELECT a FROM AnnexeAdministratif a WHERE a.secteur.id =" + secteur.getId()).getResultList();
+        if (secteur != null && secteur.getId() != null) {
+            return em.createQuery("SELECT a FROM AnnexeAdministratif a WHERE a.secteur.id=" + secteur.getId()).getResultList();
+        }else{
+            return null;
+        }
     }
 
     public List<AnnexeAdministratif> findByName(String nom) {
@@ -38,15 +44,16 @@ public class AnnexeAdministratifFacade extends AbstractFacade<AnnexeAdministrati
         super(AnnexeAdministratif.class);
     }
 
-     public void clone(AnnexeAdministratif annexeAdministratifSource,AnnexeAdministratif annexeAdministratifDestaination){
+    public void clone(AnnexeAdministratif annexeAdministratifSource, AnnexeAdministratif annexeAdministratifDestaination) {
         annexeAdministratifDestaination.setAbreviation(annexeAdministratifSource.getAbreviation());
         annexeAdministratifDestaination.setNom(annexeAdministratifSource.getNom());
         annexeAdministratifDestaination.setId(annexeAdministratifSource.getId());
         annexeAdministratifDestaination.setSecteur(annexeAdministratifSource.getSecteur());
-        
+
     }
-    public AnnexeAdministratif clone(AnnexeAdministratif annexeAdministratif){
-        AnnexeAdministratif cloned=new AnnexeAdministratif();
+
+    public AnnexeAdministratif clone(AnnexeAdministratif annexeAdministratif) {
+        AnnexeAdministratif cloned = new AnnexeAdministratif();
         clone(annexeAdministratif, cloned);
         return cloned;
     }

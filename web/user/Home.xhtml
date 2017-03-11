@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
         <link  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
         <link src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
@@ -36,7 +36,7 @@
                                 <li><p:commandLink action="/search/Adrressage" value="Adresses"></p:commandLink>                           
                                 </li>
                                
-                                <li><p:commandLink action="/faces/index" value="Se deconnecter"></p:commandLink>                           
+                                <li><p:commandLink action="#{historiqueController.deconnection()}" value="Se deconnecter"></p:commandLink>                           
                                 </li>                           
                             </ul>
                         </div>
@@ -63,10 +63,10 @@
                 <div class="col-lg-6" style="margin-top: 4%;">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="active"><a href="#">ADMIN ACCESS</a> </li>
-                        <li><p:commandLink class="btn-block" action="/user/AdminAccess" value="users"></p:commandLink></li>
-                    <li><p:commandLink class="btn-block btn-warning" action="/journal/AdminAccess" value="Journal"></p:commandLink></li>
-                    <li><p:commandLink class="btn-block" action="/historique/AdminAccess" value="Historique"></p:commandLink></li>
-                    <li><p:commandLink class="btn-block btn-warning" action="/device/AdminAccess" value="Device"></p:commandLink></li>                     
+                        <li><p:commandLink class="btn-block" oncomplete="PF('AccessDialog').show()" value="users"></p:commandLink></li>
+                        <li><p:commandLink class="btn-block btn-warning" value="Journal"  oncomplete="PF('AccessDialog').show()" ></p:commandLink></li>
+                    <li><p:commandLink class="btn-block"  value="Historique" oncomplete="PF('AccessDialog').show()"></p:commandLink></li>
+                    <li><p:commandLink class="btn-block btn-warning"  value="Device" oncomplete="PF('AccessDialog').show()"></p:commandLink></li>                     
                     </ul>
                 
                 </div>
@@ -76,5 +76,6 @@
         </div>
 
     </h:body>
+    <ui:include src="AdminAccess.xhtml"/>
 </html>
 
