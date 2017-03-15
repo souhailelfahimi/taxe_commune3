@@ -6,6 +6,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class Historique implements Serializable {
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateConnection;
+    private LocalDateTime dateDeconnection;
     private int type;//1 cnx 2 decnx
     @OneToOne
     private User user;
@@ -39,10 +41,14 @@ public class Historique implements Serializable {
         this.user = user;
     }
 
-    public Historique() {
+    public Historique(int type, LocalDateTime dateDeconnection, User user) {
+        this.dateDeconnection = dateDeconnection;
+        this.type = type;
+        this.user = user;
     }
 
-  
+    public Historique() {
+    }
 
     public int getType() {
         return type;
@@ -51,7 +57,6 @@ public class Historique implements Serializable {
     public void setType(int type) {
         this.type = type;
     }
-    
 
     public Date getDateConnection() {
         return dateConnection;
@@ -59,6 +64,14 @@ public class Historique implements Serializable {
 
     public void setDateConnection(Date dateConnection) {
         this.dateConnection = dateConnection;
+    }
+
+    public LocalDateTime getDateDeconnection() {
+        return dateDeconnection;
+    }
+
+    public void setDateDeconnection(LocalDateTime dateDeconnection) {
+        this.dateDeconnection = dateDeconnection;
     }
 
     public User getUser() {
@@ -109,5 +122,5 @@ public class Historique implements Serializable {
     public String toString() {
         return "History" + id + "";
     }
-    
+
 }

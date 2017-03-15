@@ -14,11 +14,10 @@ public class SessionUtil {
 
     private SessionUtil() {
     }
-    
-    
-     private static List<User> users = new ArrayList();
-     
-     private static boolean isConnected(User user) {
+
+    private static List<User> users = new ArrayList();
+
+    private static boolean isConnected(User user) {
         if (users.stream().anyMatch((x) -> (x.getLogin().equals(user.getLogin())))) {
             return true;
         }
@@ -32,22 +31,21 @@ public class SessionUtil {
 //        }
 //        registerUser(user);
 //    }
-
-     public static void registerUser(User user) {
+    public static void registerUser(User user) {
         setAttribute("user", user);
         if (!isConnected(user)) {
             users.add(user);
         }
     }
-     public static void unSetUser(User user){
-     users.remove(user);
-     }
-    
+
+    public static void unSetUser(User user) {
+        users.remove(user);
+    }
 
     public static User getConnectedUser() {
         return (User) getAttribute("user");
     }
-    
+
     public static void registerRedevable(Redevable redevable) {
         setAttribute("redevable", redevable);
     }

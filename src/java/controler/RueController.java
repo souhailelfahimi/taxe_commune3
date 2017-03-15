@@ -4,8 +4,10 @@ import bean.AnnexeAdministratif;
 import bean.Quartier;
 import bean.Rue;
 import bean.Secteur;
+import bean.User;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
+import controler.util.SessionUtil;
 import service.RueFacade;
 
 import java.io.Serializable;
@@ -23,6 +25,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import service.AnnexeAdministratifFacade;
 import service.QuartierFacade;
+import service.UserFacade;
 
 @Named("rueController")
 @SessionScoped
@@ -30,11 +33,13 @@ public class RueController implements Serializable {
 
     @EJB
     private service.RueFacade ejbFacade;
-
     @EJB
     private QuartierFacade quartierFacade;
     @EJB
     private AnnexeAdministratifFacade annexeAdministratifFacade;
+    @EJB
+    private UserFacade userFacade;
+    private User user;
     private List<Rue> items = null;
     private Rue selected;
     //pour la page adressage
@@ -44,6 +49,12 @@ public class RueController implements Serializable {
     private String nomAnnex;
     private String nomQuartier;
     private String nomRue;
+    private boolean allBtnClicked = false;
+
+    public void showAllQuartiers() {
+        allBtnClicked = true;
+        quartier = null;
+    }
 
     public void findAnnexByName() {
         secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findByName(nomAnnex));
@@ -63,6 +74,7 @@ public class RueController implements Serializable {
 
     public void findQuartiers() {
         annexeAdministratif.setQuartiers(quartierFacade.findByAnnexe(annexeAdministratif));
+        showAllQuartiers();
     }
 
     public void findRues() {
@@ -106,12 +118,14 @@ public class RueController implements Serializable {
     }
 
     public Rue prepareCreate() {
+        allBtnClicked = false;
         selected = new Rue();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        selected.setQuartier(quartier);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("RueCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -289,6 +303,25 @@ public class RueController implements Serializable {
 
     public void setNomRue(String nomRue) {
         this.nomRue = nomRue;
+    }
+
+    public User getUser() {
+        if (user == null) {
+            user = userFacade.find(SessionUtil.getConnectedUser().getLogin());
+        }
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isAllBtnClicked() {
+        return allBtnClicked;
+    }
+
+    public void setAllBtnClicked(boolean allBtnClicked) {
+        this.allBtnClicked = allBtnClicked;
     }
 
 }

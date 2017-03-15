@@ -1,6 +1,7 @@
 package controler;
 
 import bean.AnnexeAdministratif;
+import bean.Secteur;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
 import service.AnnexeAdministratifFacade;
@@ -27,19 +28,42 @@ public class AnnexeAdministratifController implements Serializable {
     private service.AnnexeAdministratifFacade ejbFacade;
     private List<AnnexeAdministratif> items = null;
     private AnnexeAdministratif selected;
+    private Secteur secteur;
+    private boolean allBtnClicked = true;
 
     public AnnexeAdministratifController() {
     }
 
     public AnnexeAdministratif getSelected() {
-        if(selected==null){
-            selected=new AnnexeAdministratif();
+        if (selected == null) {
+            selected = new AnnexeAdministratif();
         }
         return selected;
     }
 
+    //pour afficher le combobox des secteure au lieu de du secteur selectione sur la table
+    public void showAllSecteurs() {
+        allBtnClicked = true;
+        secteur = null;
+    }
+
+    public void itemSelect() {
+        allBtnClicked = true;
+    }
+
     public void setSelected(AnnexeAdministratif selected) {
         this.selected = selected;
+    }
+
+    public Secteur getSecteur() {
+        if (secteur == null) {
+            secteur = new Secteur();
+        }
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
     }
 
     protected void setEmbeddableKeys() {
@@ -53,12 +77,14 @@ public class AnnexeAdministratifController implements Serializable {
     }
 
     public AnnexeAdministratif prepareCreate() {
+        allBtnClicked = false;
         selected = new AnnexeAdministratif();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        selected.setSecteur(secteur);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AnnexeAdministratifCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -163,6 +189,14 @@ public class AnnexeAdministratifController implements Serializable {
             }
         }
 
+    }
+
+    public boolean isAllBtnClicked() {
+        return allBtnClicked;
+    }
+
+    public void setAllBtnClicked(boolean allBtnClicked) {
+        this.allBtnClicked = allBtnClicked;
     }
 
 }

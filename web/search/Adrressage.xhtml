@@ -16,189 +16,192 @@
 
         <ui:define name="body">
             <div class="container" >
-            <div class="col-lg-3" style="margin-top: 4%;padding: -2%;">
-                        <h:form id="SecteurListForm">
-                            <p:panel header="#{bundle.ListSecteurTitle}">
-                                <p:dataTable id="datalist" value="#{secteurController.items}" var="item"
-                                             selectionMode="single"
-                                             paginator="true"
-                                             rowKey="#{item.id}"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,20,30,40,50"
-                                             >
+                <div class="col-lg-3" style="margin-top: 4%;padding: -2%;">
+                    <h:form id="SecteurListForm">
+                        <p:panel header="#{bundle.ListSecteurTitle}">
+                            <p:dataTable id="datalist" value="#{secteurController.items}" var="item"
+                                         selectionMode="single" selection="#{annexeAdministratifController.secteur}"
+                                         paginator="true"
+                                         rowKey="#{item.id}"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         >
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListSecteurTitle_abreviation}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.abreviation}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListSecteurTitle_nomSecteur}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nomSecteur}"/>
-                                    </p:column>
-
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Action"/>
-                                        </f:facet>
-                                        <p:commandButton actionListener="#{rueController.findAnnexs(item)}" icon="ui-icon-search" update=":AnnexeAdministratifListForm:datalist"/>
-                                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  actionListener="#{secteurController.destroy}" update="datalist"/>
-                                    </p:column>
-                                    <f:facet name="footer">
-                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{SecteurController.prepareCreate}" update=":SecteurCreateForm" oncomplete="PF('SecteurCreateDialog').show()"/>
-                                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SecteurEditForm" oncomplete="PF('SecteurEditDialog').show()"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListSecteurTitle_abreviation}"/>
                                     </f:facet>
-                                </p:dataTable>
-                            </p:panel>
-                        </h:form>
+                                    <h:outputText value="#{item.abreviation}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListSecteurTitle_nomSecteur}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nomSecteur}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Action"/>
+                                    </f:facet>
+                                    <p:commandButton actionListener="#{rueController.findAnnexs(item)}" icon="ui-icon-search" update=":AnnexeAdministratifListForm:datalist,:AnnexeAdministratifCreateForm"/>
+                                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  actionListener="#{secteurController.destroy}" update="datalist"  disabled="#{rueController.user.createAdresse==false}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{SecteurController.prepareCreate}" update=":SecteurCreateForm" oncomplete="PF('SecteurCreateDialog').show()"  disabled="#{rueController.user.createAdresse==false}"/>
+                                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SecteurEditForm" oncomplete="PF('SecteurEditDialog').show()"  disabled="#{rueController.user.createAdresse==false}"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+                </div>
+                <div class="col-lg-3" style="margin-top: 4%;">
+
+                    <h:form id="AnnexeAdministratifListForm">
+                        <p:panel header="#{bundle.ListAnnexeAdministratifTitle}">
+                            <p:outputLabel value="Nom Annex : "/>
+                            <p:inputText id="nomAnnex" value="#{rueController.nomAnnex}" style="width:115px;"></p:inputText>
+                            <p:commandButton actionListener="#{rueController.findAnnexByName()}" update="datalist" icon="ui-icon-search" />
+                            <p:dataTable id="datalist" value="#{rueController.secteur.annexeAdministratifs}" var="item"
+                                         selectionMode="single"  selection="#{quartierController.annexe}"
+                                         paginator="true"
+                                         rowKey="#{item.id}"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_nom}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nom}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_abreviation}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.abreviation}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Action"/>
+                                    </f:facet>
+                                    <p:commandButton actionListener="#{rueController.findQuartiers(item)}" icon="ui-icon-search" update=":QuartierListForm:datalist"/>
+                                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  actionListener="#{annexeAdministratifController.destroy}" update="datalist"  disabled="#{rueController.user.createAdresse==false}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{annexeAdministratifController.prepareCreate}" update=":AnnexeAdministratifCreateForm"
+                                                     oncomplete="PF('AnnexeAdministratifCreateDialog').show()"  disabled="#{rueController.user.createAdresse==false}"/>
+                                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AnnexeAdministratifEditForm" oncomplete="PF('AnnexeAdministratifEditDialog').show()"
+                                                     disabled="#{rueController.user.createAdresse==false}"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+
+                </div>
+                <div class="col-lg-3" style="margin-top: 4%;">
+                    <h:form id="QuartierListForm">
+                        <p:panel header="#{bundle.ListQuartierTitle}">
+                            <p:outputLabel value="Nom Quartier : "/>
+                            <p:inputText id="nomQuartier" value="#{rueController.nomQuartier}"  style="width:110px;"></p:inputText>
+                            <p:commandButton actionListener="#{rueController.findQuartierByName()}" update="datalist" icon="ui-icon-search" />
+                            <p:dataTable id="datalist" value="#{rueController.annexeAdministratif.quartiers}" var="item"
+                                         selectionMode="single" selection="#{rueController.quartier}"
+                                         paginator="true"
+                                         rowKey="#{item.id}"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         >
+                                <p:ajax event="rowSelect" listener="#{quartierController.initialise(item)}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListQuartierTitle_numAbreviation}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.numAbreviation}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListQuartierTitle_nom}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nom}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Action"/>
+                                    </f:facet>
+                                    <p:commandButton actionListener="#{rueController.findRues(item)}" icon="ui-icon-search" update=":RueListForm:datalist" />
+                                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  actionListener="#{quartierController.destroy}" update="datalist"  disabled="#{rueController.user.createAdresse==false}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{quartierController.prepareCreate}" 
+                                                     update=":QuartierCreateForm" oncomplete="PF('QuartierCreateDialog').show()"  disabled="#{rueController.user.createAdresse==false}"/>
+                                    <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":QuartierEditForm" oncomplete="PF('QuartierEditDialog').show()"
+                                                     disabled="#{rueController.user.createAdresse==false}"/>
+                                </f:facet>
+
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+                </div>
+                <div class="col-lg-3" style="margin-top: 4%;">
+
+                    <h:form id="RueListForm">
+                        <p:panel header="#{bundle.ListRueTitle}">
+                            <p:outputLabel value="Nom Rue : "/>
+                            <p:inputText id="nomRue" value="#{rueController.nomRue}"  style="width:115px;"></p:inputText>
+                            <p:commandButton actionListener="#{rueController.findRueByName()}" update="datalist" icon="ui-icon-search" />
+                            <p:dataTable id="datalist" value="#{rueController.quartier.rues}" var="item"
+                                         selectionMode="single" selection="#{rueController.selected}"
+                                         paginator="true"
+                                         rowKey="#{item.id}"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListRueTitle_numAbreviation}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.numAbreviation}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListRueTitle_nom}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nom}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Action"/>
+                                    </f:facet>
+                                    <p:commandButton id="viewButton"   icon="ui-icon-search"  update=":RueViewForm"  oncomplete="PF('RueViewDialog').show()"/>
+                                    <p:commandButton id="deleteButton" icon="ui-icon-trash"   actionListener="#{rueController.destroy}" update="datalist"  disabled="#{rueController.user.createAdresse==false}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="createButton" icon="ui-icon-extlink"   value="#{bundle.Create}" actionListener="#{rueController.prepareCreate}" 
+                                                     update=":RueCreateForm" oncomplete="PF('RueCreateDialog').show()"  disabled="#{rueController.user.createAdresse==false}"/>
+                                    <p:commandButton id="editButton" icon="ui-icon-gear" value="#{bundle.Edit}" update=":RueEditForm" oncomplete="PF('RueEditDialog').show()"
+                                                     disabled="#{rueController.user.createAdresse==false}"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+                </div>
+                <ui:include src="/secteur/Create.xhtml"/>
+                <ui:include src="/secteur/Edit.xhtml"/>
+                <ui:include src="/secteur/View.xhtml"/>
+
+                <ui:include src="/annexeAdministratif/Create.xhtml"/>
+                <ui:include src="/annexeAdministratif/Edit.xhtml"/>
+                <ui:include src="/annexeAdministratif/View.xhtml"/>
+
+                <ui:include src="/quartier/Create.xhtml"/>
+                <ui:include src="/quartier/Edit.xhtml"/>
+                <ui:include src="/quartier/View.xhtml"/>
+
+                <ui:include src="/rue/Create.xhtml"/>
+                <ui:include src="/rue/Edit.xhtml"/>
+                <ui:include src="/rue/View.xhtml"/>
             </div>
-              <div class="col-lg-3" style="margin-top: 4%;">
-                    
-                        <h:form id="AnnexeAdministratifListForm">
-                            <p:panel header="#{bundle.ListAnnexeAdministratifTitle}">
-                                <p:outputLabel value="Nom Annex : "/>
-                                <p:inputText id="nomAnnex" value="#{rueController.nomAnnex}" style="width:115px;"></p:inputText>
-                                <p:commandButton actionListener="#{rueController.findAnnexByName()}" update="datalist" icon="ui-icon-search" />
-                                <p:dataTable id="datalist" value="#{rueController.secteur.annexeAdministratifs}" var="item"
-                                             selectionMode="single" 
-                                             paginator="true"
-                                             rowKey="#{item.id}"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,20,30,40,50"
-                                             >
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_nom}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListAnnexeAdministratifTitle_abreviation}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.abreviation}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Action"/>
-                                        </f:facet>
-                                        <p:commandButton actionListener="#{rueController.findQuartiers(item)}" icon="ui-icon-search" update=":QuartierListForm:datalist"/>
-                                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  actionListener="#{annexeAdministratifController.destroy}" update="datalist"/>
-                                    </p:column>
-                                    <f:facet name="footer">
-                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{annexeAdministratifController.prepareCreate}" update=":AnnexeAdministratifCreateForm" oncomplete="PF('AnnexeAdministratifCreateDialog').show()"/>
-                                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AnnexeAdministratifEditForm" oncomplete="PF('AnnexeAdministratifEditDialog').show()"/>
-                                    </f:facet>
-                                </p:dataTable>
-                            </p:panel>
-                        </h:form>
-                   
-              </div>
-              <div class="col-lg-3" style="margin-top: 4%;">
-                        <h:form id="QuartierListForm">
-                            <p:panel header="#{bundle.ListQuartierTitle}">
-                                <p:outputLabel value="Nom Quartier : "/>
-                                <p:inputText id="nomQuartier" value="#{rueController.nomQuartier}"  style="width:110px;"></p:inputText>
-                                <p:commandButton actionListener="#{rueController.findQuartierByName()}" update="datalist" icon="ui-icon-search" />
-                                <p:dataTable id="datalist" value="#{rueController.annexeAdministratif.quartiers}" var="item"
-                                             selectionMode="single" 
-                                             paginator="true"
-                                             rowKey="#{item.id}"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,20,30,40,50"
-                                             >
-                                    <p:ajax event="rowSelect" listener="#{quartierController.initialise(item)}"/>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListQuartierTitle_numAbreviation}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.numAbreviation}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListQuartierTitle_nom}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Action"/>
-                                        </f:facet>
-                                        <p:commandButton actionListener="#{rueController.findRues(item)}" icon="ui-icon-search" update=":RueListForm:datalist"/>
-                                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  actionListener="#{quartierController.destroy}" update="datalist"/>
-                                    </p:column>
-                                    <f:facet name="footer">
-                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{quartierController.prepareCreate}" update=":QuartierCreateForm" oncomplete="PF('QuartierCreateDialog').show()"/>
-                                        <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":QuartierEditForm" oncomplete="PF('QuartierEditDialog').show()"/>
-                                    </f:facet>
-
-                                </p:dataTable>
-                            </p:panel>
-                        </h:form>
-              </div>
-              <div class="col-lg-3" style="margin-top: 4%;">
-
-                        <h:form id="RueListForm">
-                            <p:panel header="#{bundle.ListRueTitle}">
-                                <p:outputLabel value="Nom Rue : "/>
-                                <p:inputText id="nomRue" value="#{rueController.nomRue}"  style="width:115px;"></p:inputText>
-                                <p:commandButton actionListener="#{rueController.findRueByName()}" update="datalist" icon="ui-icon-search" />
-                                <p:dataTable id="datalist" value="#{rueController.quartier.rues}" var="item"
-                                             selectionMode="single" selection="#{rueController.selected}"
-                                             paginator="true"
-                                             rowKey="#{item.id}"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,20,30,40,50"
-                                             >
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListRueTitle_numAbreviation}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.numAbreviation}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListRueTitle_nom}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Action"/>
-                                        </f:facet>
-                                        <p:commandButton id="viewButton"   icon="ui-icon-search"  update=":RueViewForm"  oncomplete="PF('RueViewDialog').show()"/>
-                                        <p:commandButton id="deleteButton" icon="ui-icon-trash"   actionListener="#{rueController.destroy}" update="datalist"/>
-                                    </p:column>
-                                    <f:facet name="footer">
-                                        <p:commandButton id="createButton" icon="ui-icon-extlink"   value="#{bundle.Create}" actionListener="#{rueController.prepareCreate}" update=":RueCreateForm" oncomplete="PF('RueCreateDialog').show()"/>
-                                        <p:commandButton id="editButton" icon="ui-icon-gear" value="#{bundle.Edit}" update=":RueEditForm" oncomplete="PF('RueEditDialog').show()"/>
-                                    </f:facet>
-                                </p:dataTable>
-                            </p:panel>
-
-                        </h:form>
-
-              </div>
-            <ui:include src="/secteur/Create.xhtml"/>
-            <ui:include src="/secteur/Edit.xhtml"/>
-            <ui:include src="/secteur/View.xhtml"/>
-
-            <ui:include src="/annexeAdministratif/Create.xhtml"/>
-            <ui:include src="/annexeAdministratif/Edit.xhtml"/>
-            <ui:include src="/annexeAdministratif/View.xhtml"/>
-
-            <ui:include src="/quartier/Create.xhtml"/>
-            <ui:include src="/quartier/Edit.xhtml"/>
-            <ui:include src="/quartier/View.xhtml"/>
-
-            <ui:include src="/rue/Create.xhtml"/>
-            <ui:include src="/rue/Edit.xhtml"/>
-            <ui:include src="/rue/View.xhtml"/>
-              </div>
         </ui:define>
     </ui:composition>
 </html>

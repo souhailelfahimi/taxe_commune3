@@ -31,6 +31,12 @@ public class User implements Serializable {
     private int blocked;
     private int nbrCnx;
     private boolean admin;
+    private boolean createUser;  //12/03/2017
+    private boolean createTaxes;
+    private boolean createRedevable;  
+    private boolean createLocale;
+    private boolean createAdresse;
+    private boolean createCtegorieTaux;
     @OneToMany(mappedBy = "user")
     private List<Device> devices;
     @ManyToOne
@@ -123,6 +129,55 @@ public class User implements Serializable {
         this.admin = admiin;
     }
 
+    public boolean isCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(boolean createUser) {
+        this.createUser = createUser;
+    }
+
+    public boolean isCreateTaxes() {
+        return createTaxes;
+    }
+
+    public void setCreateTaxes(boolean createTaxes) {
+        this.createTaxes = createTaxes;
+    }
+
+    public boolean isCreateRedevable() {
+        return createRedevable;
+    }
+
+    public void setCreateRedevable(boolean createRedevable) {
+        this.createRedevable = createRedevable;
+    }
+
+    public boolean isCreateLocale() {
+        return createLocale;
+    }
+
+    public void setCreateLocale(boolean createLocale) {
+        this.createLocale = createLocale;
+    }
+
+    public boolean isCreateAdresse() {
+        return createAdresse;
+    }
+
+    public void setCreateAdresse(boolean createAdresse) {
+        this.createAdresse = createAdresse;
+    }
+
+    public boolean isCreateCtegorieTaux() {
+        return createCtegorieTaux;
+    }
+
+    public void setCreateCtegorieTaux(boolean createCtegorieTaux) {
+        this.createCtegorieTaux = createCtegorieTaux;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

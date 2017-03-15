@@ -13,18 +13,24 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{annexeAdministratifController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateAnnexeAdministratifLabel_secteur}" for="secteur" />
-                        <p:selectOneMenu id="secteur" value="#{annexeAdministratifController.selected.secteur}" >
-                            <f:selectItems value="#{secteurController.itemsAvailableSelectOne}"
+                        <p:selectOneMenu id="secteur" value="#{annexeAdministratifController.secteur}" rendered="#{annexeAdministratifController.secteur.id==null or annexeAdministratifController.allBtnClicked==true}" >
+                            <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
+                            <f:selectItems value="#{secteurController.itemsAvailableSelectOne}"  
                                            var="secteurItem"
                                            itemValue="#{secteurItem}"/>
+                            <p:ajax update="save" listener="#{annexeAdministratifController.itemSelect()}" />
                         </p:selectOneMenu>
+                        <p:commandButton icon="ui-icon-refresh" actionListener="#{annexeAdministratifController.showAllSecteurs()}" update="AnnexeAdministratifCreateForm" rendered="#{annexeAdministratifController.secteur.id!=null }" style="left: 85px">
+                            <h:outputText value="#{annexeAdministratifController.secteur.nomSecteur}" rendered="#{annexeAdministratifController.secteur.id!=null}" ></h:outputText>
+                        </p:commandButton>
                         <p:outputLabel value="#{bundle.CreateAnnexeAdministratifLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{annexeAdministratifController.selected.nom}" title="#{bundle.CreateAnnexeAdministratifTitle_nom}" />
                         <p:outputLabel value="#{bundle.CreateAnnexeAdministratifLabel_abreviation}" for="abreviation" />
                         <p:inputText id="abreviation" value="#{annexeAdministratifController.selected.abreviation}" title="#{bundle.CreateAnnexeAdministratifTitle_abreviation}" />
-                        
+
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{annexeAdministratifController.create}" value="#{bundle.Save}" update="display,:AnnexeAdministratifListForm:datalist,:growl" oncomplete="handleSubmit(args,'AnnexeAdministratifCreateDialog');"/>
+                    <p:commandButton id="save" actionListener="#{annexeAdministratifController.create}" value="#{bundle.Save}" update="display,:AnnexeAdministratifListForm:datalist,:growl" oncomplete="handleSubmit(args,'AnnexeAdministratifCreateDialog');"
+                                     disabled="#{empty annexeAdministratifController.secteur.id}"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="AnnexeAdministratifCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

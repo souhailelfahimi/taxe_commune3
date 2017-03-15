@@ -1,5 +1,6 @@
 package controler;
 
+import bean.AnnexeAdministratif;
 import bean.Quartier;
 import bean.Secteur;
 import controler.util.JsfUtil;
@@ -32,11 +33,19 @@ public class QuartierController implements Serializable {
     private service.AnnexeAdministratifFacade annexAdministratifFacade;
     private List<Quartier> items = null;
     private Quartier selected;
-    private Quartier quartier;
     private Secteur secteur;
+    private AnnexeAdministratif annexe;
+    private boolean allBtnClicked = false;
+
+    //pour afficher le combobox des annexes au lieu de du l'annexe selectione sur la table
+    public void showAllAnnexes() {
+        allBtnClicked = true;
+        annexe = null;
+    }
 
     public void findAnnexs() {
         secteur.setAnnexeAdministratifs(annexAdministratifFacade.findBySecteur(secteur));
+        showAllAnnexes();
     }
 
     public AnnexeAdministratifFacade getAnnexAdministratifFacade() {
@@ -83,12 +92,14 @@ public class QuartierController implements Serializable {
     }
 
     public Quartier prepareCreate() {
+        allBtnClicked = false;
         selected = new Quartier();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        selected.setAnnexeAdministratif(annexe);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("QuartierCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -195,15 +206,15 @@ public class QuartierController implements Serializable {
 
     }
 
-    public Quartier getQuartier() {
-        if (quartier == null) {
-            quartier = new Quartier();
+    public AnnexeAdministratif getAnnexe() {
+        if (annexe == null) {
+            annexe = new AnnexeAdministratif();
         }
-        return quartier;
+        return annexe;
     }
 
-    public void setQuartier(Quartier quartier) {
-        this.quartier = quartier;
+    public void setAnnexe(AnnexeAdministratif annexe) {
+        this.annexe = annexe;
     }
 
     public Secteur getSecteur() {
@@ -212,6 +223,14 @@ public class QuartierController implements Serializable {
 
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
+    }
+
+    public boolean isAllBtnClicked() {
+        return allBtnClicked;
+    }
+
+    public void setAllBtnClicked(boolean allBtnClicked) {
+        this.allBtnClicked = allBtnClicked;
     }
 
 }

@@ -27,6 +27,9 @@ import javax.faces.convert.FacesConverter;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.DonutChartModel;
+import org.primefaces.model.chart.LineChartModel;
 import service.AnnexeAdministratifFacade;
 import service.LocaleFacade;
 import service.QuartierFacade;
@@ -81,7 +84,10 @@ public class TaxeTrimController implements Serializable {
     private int firstYear;
     private int secondYear;
     private BarChartModel modele;
+    private LineChartModel lineModel;
+    private DonutChartModel donutChartModel;
     private List<TaxeTrim> taxes;
+    private int typeGraphe;
 
     //apl au methode de recherches destaxTrm par criter pour construire un graphe
     public void createBarModel() {
@@ -97,9 +103,56 @@ public class TaxeTrimController implements Serializable {
         yAxis.setMax(20000);
     }
 
+    // bar de graphe
+    public void createModel() {
+        taxes = ejbFacade.findTaxByCritere(activite, firstYear, secondYear, rue, quartier, annexeAdministratif, secteur);
+
+        switch (typeGraphe) {
+            case 3:
+                donutChartModel = ejbFacade.initDonuModel(taxes, firstYear, secondYear);
+                donutChartModel.setTitle("Statistique");
+                donutChartModel.setLegendPosition("ne");
+                donutChartModel.setSliceMargin(5);
+                donutChartModel.setShowDataLabels(true);
+                donutChartModel.setDataFormat("value");
+                donutChartModel.setShadow(true);
+                break;
+            case 1: {
+                modele = ejbFacade.initBarModel(taxes, firstYear, secondYear);
+                modele.setTitle("Statistique");
+                modele.setLegendPosition("ne");
+                modele.setAnimate(true);
+                Axis xAxis = modele.getAxis(AxisType.X);
+                xAxis.setLabel("Les trimestres");
+                Axis yAxis = modele.getAxis(AxisType.Y);
+                yAxis.setLabel("Montant");
+                yAxis.setMin(0);
+                yAxis.setMax(ejbFacade.maxY(taxes, firstYear, secondYear) + 1000);
+                break;
+            }
+            case 2: {
+                lineModel = ejbFacade.initLineModel(taxes, firstYear, secondYear);
+                lineModel.setTitle("Statistique");
+                lineModel.setLegendPosition("ne");
+                lineModel.setAnimate(true);
+                Axis xAxis = lineModel.getAxis(AxisType.X);
+                lineModel.getAxes().put(AxisType.X, new CategoryAxis(""));
+                xAxis.setLabel("Les trimestres");
+                Axis yAxis = lineModel.getAxis(AxisType.Y);
+                yAxis.setLabel("Montant");
+                yAxis.setMin(0);
+                yAxis.setMax(ejbFacade.maxY(taxes, firstYear, secondYear) + 1000);
+                break;
+            }
+            default:
+                break;
+        }
+
+    }
+
     public void findByCreteria() {
         //appelle 3la lmethode dyal recherch     
-        items = ejbFacade.findLocaleByCretere(dateMin, dateMax, montantMin, montantMax, nombreNuitMin, nombreNuitMax, localeName, redevableName, categorie, secteur, annexeAdministratif, quartier, rue);
+        items = ejbFacade.findLocaleByCretere(dateMin, dateMax, montantMin, montantMax, nombreNuitMin, nombreNuitMax, localeName, redevableFacade.findByCinRc(redevableName), categorie, secteur, annexeAdministratif, quartier, rue);
     }
 
     public void findAnnexs() {
@@ -189,6 +242,7 @@ public class TaxeTrimController implements Serializable {
         if ((int) res[0] == 1) {
             System.out.println("persiting...");
             selected = ejbFacade.clone((TaxeTrim) res[1]);
+            selected.setRedevable(redevable);
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TaxeTrimCreated"));
         }
         if (!JsfUtil.isValidationFailed()) {
@@ -543,6 +597,36 @@ public class TaxeTrimController implements Serializable {
 
     public void setTaxes(List<TaxeTrim> taxes) {
         this.taxes = taxes;
+    }
+
+    public int getTypeGraphe() {
+        return typeGraphe;
+    }
+
+    public void setTypeGraphe(int typeGraphe) {
+        this.typeGraphe = typeGraphe;
+    }
+
+    public LineChartModel getLineModel() {
+        if (lineModel == null) {
+            lineModel = new LineChartModel();
+        }
+        return lineModel;
+    }
+
+    public void setLineModel(LineChartModel lineModel) {
+        this.lineModel = lineModel;
+    }
+
+    public DonutChartModel getDonutChartModel() {
+        if (donutChartModel == null) {
+            donutChartModel = new DonutChartModel();
+        }
+        return donutChartModel;
+    }
+
+    public void setDonutChartModel(DonutChartModel donutChartModel) {
+        this.donutChartModel = donutChartModel;
     }
 
 }

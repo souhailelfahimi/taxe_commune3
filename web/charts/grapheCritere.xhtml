@@ -62,15 +62,25 @@
                         <p:outputLabel value="2eme année"></p:outputLabel>
                         <p:inputText id="secondYear" value="#{taxeTrimController.secondYear}" title="2eme année"/>
 
+                        <p:outputLabel value="type de graphe" for="type" />
+                        <p:selectOneMenu id="type" value="#{taxeTrimController.typeGraphe}" >
+                            <f:selectItem itemValue="1" itemLabel="Bar"/>
+                            <f:selectItem itemValue="2" itemLabel="Line"/>
+                            <f:selectItem itemValue="3" itemLabel="Circle"/>
+                            <p:ajax update=":statistique" listener="#{taxeTrimController.createModel()}"></p:ajax>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:toolbar>
                         <p:toolbarGroup>
-                            <p:commandButton update=":graphe" value="Rechecher" actionListener="#{taxeTrimController.createBarModel()}"></p:commandButton>
+                            <p:commandButton update=":statistique" value="Rechecher" actionListener="#{taxeTrimController.createModel()}"></p:commandButton>
                         </p:toolbarGroup>
                     </p:toolbar>
-
                 </h:form>
-                <p:chart type="bar" id="graphe" model="#{taxeTrimController.modele}" style="height:300px"/>
+                <h:form id="statistique" >
+                <p:chart type="bar" id="graphe" model="#{taxeTrimController.modele}"  rendered="#{taxeTrimController.typeGraphe==1}"/>
+                <p:chart type="donut" id="donut" model="#{taxeTrimController.donutChartModel}"  rendered="#{taxeTrimController.typeGraphe==3}" />
+                <p:chart type="line" id="line" model="#{taxeTrimController.lineModel}"  rendered="#{taxeTrimController.typeGraphe==2}" />
+                </h:form>
             </h:body>
         </ui:define>
     </ui:composition>   

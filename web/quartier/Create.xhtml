@@ -13,22 +13,26 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{quartierController.selected != null}">
 
-                        <p:outputLabel value="secteur" />
-                        <p:selectOneMenu id="secteur"  value="#{quartierController.secteur}" >
+                        <p:outputLabel value="secteur" rendered="#{quartierController.annexe.id==null or quartierController.allBtnClicked==true}" />
+                        <p:selectOneMenu id="secteur"  value="#{quartierController.secteur}" rendered="#{quartierController.annexe.id==null or quartierController.allBtnClicked==true}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
                             <f:selectItems value="#{secteurController.items}"
                                            var="secteurItem" 
                                            itemValue="#{secteurItem}"/>
-                            <p:ajax process="secteur" listener="#{quartierController.findAnnexs()}" update="annexeAdministratif" />
+                            <p:ajax process="secteur" listener="#{quartierController.findAnnexs()}" update="annexeAdministratif,save" />
                         </p:selectOneMenu>
 
                         <p:outputLabel value="#{bundle.CreateQuartierLabel_annexeAdministratif}" for="annexeAdministratif" />
-                        <p:selectOneMenu id="annexeAdministratif"  value="#{quartierController.selected.annexeAdministratif}" >
+                        <p:selectOneMenu id="annexeAdministratif"  value="#{quartierController.annexe}" rendered="#{quartierController.annexe.id==null or quartierController.allBtnClicked==true}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
                             <f:selectItems value="#{quartierController.secteur.annexeAdministratifs}"
                                            var="annexAdministratifItem" 
                                            itemValue="#{annexAdministratifItem}"/>
+                            <p:ajax update="save"/>
                         </p:selectOneMenu>
+                        <p:commandButton icon="ui-icon-refresh" actionListener="#{quartierController.showAllAnnexes()}" update="QuartierCreateForm" rendered="#{quartierController.annexe.id!=null}" style="left: 85px">
+                            <h:outputText value="#{quartierController.annexe.nom}" rendered="#{quartierController.annexe.id!=null}" ></h:outputText>
+                        </p:commandButton>
 
                         <p:outputLabel value="#{bundle.CreateQuartierLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{quartierController.selected.nom}" title="#{bundle.CreateQuartierTitle_nom}" />
@@ -40,7 +44,8 @@
 
 
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{quartierController.create}" value="#{bundle.Save}" update="display,:QuartierListForm:datalist,:growl" oncomplete="handleSubmit(args,'QuartierCreateDialog');"/>
+                    <p:commandButton id="save" actionListener="#{quartierController.create}" value="#{bundle.Save}" update="display,:QuartierListForm:datalist,:growl" 
+                                     disabled="#{empty quartierController.annexe.id}"  oncomplete="handleSubmit(args,'QuartierCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="QuartierCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

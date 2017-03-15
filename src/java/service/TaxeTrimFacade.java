@@ -8,19 +8,24 @@ package service;
 import bean.AnnexeAdministratif;
 import bean.Categorie;
 import bean.Quartier;
+import bean.Redevable;
 import bean.Rue;
 import bean.Secteur;
 import bean.TaxeAnnuel;
 import bean.TaxeTrim;
 import controler.util.SearchUtil;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.DonutChartModel;
+import org.primefaces.model.chart.LineChartModel;
 
 /**
  *
@@ -51,15 +56,13 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
         } else {
             //faire les calcules sans les enregistre dans la base de donnees
             System.out.println("les setters");
-            taxeTrim.setMontantTotal(100D*taxeTrim.getNombreNuit());
+            taxeTrim.setMontantTotal(100D * taxeTrim.getNombreNuit());
             taxeTrim.setMontant(80D);
             taxeTrim.setMontantRetard(20D);
             taxeTrim.setPremierMoisRetard(12D);
             taxeTrim.setNbrMoisRetard(2);
             taxeTrim.setAutresMoisRetard(8D);
-            if (1 == 1) {
-                System.out.println("a");
-            }
+            System.out.println("salaw les setters");
             if (simuler == false) {
                 taxeAnnuelFacade.create(taxeTrim.getLocale(), annee);//si il n'existe une taxeAnnuel avec ce locale et l'annee il va le creer 
                 TaxeAnnuel taxeAnnuel = taxeAnnuelFacade.findByLocaleAndAnnee(taxeTrim.getLocale(), annee);//100% taxeTrim existe dans la base de donnees
@@ -99,11 +102,8 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
         if (activite != null) {
             rqt += SearchUtil.addConstraint("tax.locale", "activite", "=", activite);
         }
-        if (firstYear > 0) {
-            rqt += "AND tax.taxeAnnuel.annee=" + firstYear;
-        }
-        if (secondYear > 0) {
-            rqt += " AND tax.taxeAnnuel.annee=" + secondYear;
+        if (firstYear > 0 && secondYear > 0) {
+            rqt += "AND tax.taxeAnnuel.annee in (" + firstYear + "," + secondYear + ")";
         }
         if (rue == null) {
             if (quartier == null) {
@@ -120,10 +120,11 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
         } else {
             rqt += SearchUtil.addConstraint("tax.locale", "rue.id", "=", rue.getId());
         }
+        System.out.println(rqt);
         return em.createQuery(rqt).getResultList();
     }
 
-    //pour construire la sereis des coordonnees
+    //pour construire la sereis des coordonnees pour les bar
     public BarChartModel initBarModel(List<TaxeTrim> taxes, int firstYear, int secondYear) {
         ChartSeries firstYearTaxe = new ChartSeries();
         ChartSeries secondYearTaxe = new ChartSeries();
@@ -150,17 +151,94 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
         return model1;
     }
 
+    // Chart-Donut
+    public DonutChartModel initDonuModel(List<TaxeTrim> taxes, int firstYear, int secondYear) {
+        DonutChartModel donutMoel = new DonutChartModel();
+        Map<String, Number> firstCircle = new LinkedHashMap<>();
+        Map<String, Number> secondCircle = new LinkedHashMap<>();
+        int x;
+        for (x = 1; x < 5; x++) {
+            Double a = 0.0;
+            Double b = 0.0;
+            for (TaxeTrim taxeTrim : taxes) {
+                if (taxeTrim.getTaxeAnnuel().getAnnee() == firstYear && taxeTrim.getNumeroTrim() == x) {
+                    a += taxeTrim.getMontantTotal();
+                }
+                if (taxeTrim.getTaxeAnnuel().getAnnee() == secondYear && taxeTrim.getNumeroTrim() == x) {
+                    b += taxeTrim.getMontantTotal();
+                }
+            }
+            firstCircle.put("Trimestre " + x + "-" + firstYear, a);
+            secondCircle.put("Trimestre " + x + "-" + secondYear, b);
+        }
+
+        donutMoel.addCircle(firstCircle);
+        donutMoel.addCircle(secondCircle);
+        return donutMoel;
+    }
+
+    //initialiser les series des coordonnees de lineChart
+    public LineChartModel initLineModel(List<TaxeTrim> taxes, int firstYear, int secondYear) {
+        ChartSeries firstSerie = new ChartSeries();
+        ChartSeries secondSerie = new ChartSeries();
+        int x;
+        for (x = 1; x < 5; x++) {
+            Double a = 0.0;
+            Double b = 0.0;
+            for (TaxeTrim taxeTrim : taxes) {
+                if (taxeTrim.getTaxeAnnuel().getAnnee() == firstYear && taxeTrim.getNumeroTrim() == x) {
+                    a += taxeTrim.getMontantTotal();
+                }
+                if (taxeTrim.getTaxeAnnuel().getAnnee() == secondYear && taxeTrim.getNumeroTrim() == x) {
+                    b += taxeTrim.getMontantTotal();
+                }
+            }
+            firstSerie.set("Trimestre " + x, a);
+            secondSerie.set("Trimestre " + x, b);
+        }
+        firstSerie.setLabel("" + firstYear);
+        secondSerie.setLabel("" + secondYear);
+        LineChartModel modelLine = new LineChartModel();
+        modelLine.addSeries(firstSerie);
+        modelLine.addSeries(secondSerie);
+        modelLine.setShowPointLabels(true);
+        return modelLine;
+    }
+
+    public Double maxY(List<TaxeTrim> taxes, int firstYear, int secondYear) {
+        int x;
+        Double max = 0.0;
+        for (x = 1; x < 5; x++) {
+            Double a = 0.0;
+            Double b = 0.0;
+            for (TaxeTrim taxeTrim : taxes) {
+                if (taxeTrim.getTaxeAnnuel().getAnnee() == firstYear && taxeTrim.getNumeroTrim() == x) {
+                    a += taxeTrim.getMontantTotal();
+                }
+                if (taxeTrim.getTaxeAnnuel().getAnnee() == secondYear && taxeTrim.getNumeroTrim() == x) {
+                    b += taxeTrim.getMontantTotal();
+                }
+            }
+            if (a > max) {
+                max = a;
+            } else if (b > max) {
+                max = b;
+            } else {
+                max = max;
+            }
+        }
+        return max;
+    }
+
     // hadi recherche ta3 taxetrime bga3 les crétére 
-    public List<TaxeTrim> findLocaleByCretere(Date dateMin, Date dateMax, Double montantMin, Double montantMax, int nombreNuitMin, int nombreNuitMax, String local, String redevable, Categorie categorie, Secteur secteur, AnnexeAdministratif annexeAdministratif, Quartier quartier, Rue rue) {
+    public List<TaxeTrim> findLocaleByCretere(Date dateMin, Date dateMax, Double montantMin, Double montantMax, int nombreNuitMin, int nombreNuitMax, String local, Redevable redevable, Categorie categorie, Secteur secteur, AnnexeAdministratif annexeAdministratif, Quartier quartier, Rue rue) {
         {
             String requete = "SELECT ta FROM TaxeTrim ta WHERE 1=1  ";
             requete += SearchUtil.addConstraintMinMaxDate("ta", "datePaiement", dateMin, dateMax);
             if (!local.equals("")) {
                 requete += " AND ta.locale.reference='" + local + "'";
             }
-            if (!redevable.equals("")) {
-                requete += " AND ta.redevable.cin='" + redevable + "'";
-            }
+            requete += SearchUtil.addConstraint("ta", "redevable.id", "=", redevable.getId());
             if (categorie != null) {
                 requete += " AND ta.locale.categorie.id='" + categorie.getId() + "'";
             }
@@ -190,7 +268,7 @@ public class TaxeTrimFacade extends AbstractFacade<TaxeTrim> {
                 requete += SearchUtil.addConstraintMinMax("ta", "nombreNuit", nombreNuitMin, nombreNuitMax);
 
             }
-
+            System.out.println(requete);
             return em.createQuery(requete).getResultList();
 
         }
