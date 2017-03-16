@@ -23,12 +23,12 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class TauxTaxeRetardFacade extends AbstractFacade<TauxTaxeRetard> {
 
-    public double calculeTauxRetard(TaxeTrim taxeTrim)
-    {
-         Date  date = new Date();
-       int numbreofmonth=getMonthsDifference(date1,taxeTrim.getDatePaiement());
-             
-    }
+//    public double calculeTauxRetard(TaxeTrim taxeTrim)
+//    {
+//         Date  date = new Date();
+//       int numbreofmonth=getMonthsDifference(date1,taxeTrim.getDatePaiement());
+//             
+//    }
 //    public int  calculeNombreMoisRetard(int trimestre,int anne)
 //    {
 //            Date  date1 = new Date();

@@ -14,7 +14,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="SecteurListForm">
+            <h:form id="SecteurListForm" style="padding-left: 15%;padding-right:15%; background-color: #eee6ff ;text-align: center">
                 <p:panel header="#{bundle.ListSecteurTitle}">
                     <p:dataTable id="datalist" value="#{secteurController.items}" var="item"
                                  selectionMode="single" selection="#{secteurController.selected}"

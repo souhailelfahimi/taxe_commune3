@@ -14,7 +14,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="TaxeAnnuelListForm">
+            <h:form id="TaxeAnnuelListForm" style="padding-left: 15%;padding-right:15%; background-color: #eee6ff ;text-align: center">
                 <p:panel header="#{bundle.ListTaxeAnnuelTitle}">
                     <p:dataTable id="datalist" value="#{taxeAnnuelController.items}" var="item"
                                  selectionMode="single" selection="#{taxeAnnuelController.selected}"
@@ -35,7 +35,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTaxeAnnuelTitle_taxeTotal}"/>
+                                <h:outputText value="#{bundle.ListTaxeAnnuelTitle_taxeTotale}"/>
                             </f:facet>
                             <h:outputText value="#{item.taxeTotale}"/>
                         </p:column>

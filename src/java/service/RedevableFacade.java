@@ -43,6 +43,16 @@ public class RedevableFacade extends AbstractFacade<Redevable> {
         if (!"".equals(redevable.getPattente())) {
             requette += SearchUtil.addConstraint("r", "pattente", "=", redevable.getPattente());
         }
+        if (!"".equals(redevable.getNom()) && redevable.getNom() != null) {
+            requette += " AND r.nom LIKE '" + redevable.getNom() + "%'";
+        }
+        if (redevable.getNature() != 0) {
+            requette += SearchUtil.addConstraint("r", "nature", "=", redevable.getNature());
+        }
+        if (!"".equals(redevable.getEmail()) && redevable.getEmail() != null) {
+            requette += " AND r.email LIKE '" + redevable.getEmail() + "%'";
+        }
+        System.out.println(requette);
         return em.createQuery(requette).getResultList();
     }
 

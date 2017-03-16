@@ -8,65 +8,72 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body>
-        <ui:composition template="/template.xhtml">
-            <ui:define name="body">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="body">
+            <h:body>
                 <br></br>
-                <h:form id="adressage">
+                <h:form id="form">
                     <p:outputLabel value="Adresse" />
                     <p:panelGrid columns="8">
                         <p:outputLabel value="secteur" />
-                        <p:selectOneMenu id="secteur"  value="#{localeController.secteur}" >
+                        <p:selectOneMenu id="secteur"  value="#{taxeTrimController.secteur}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
                             <f:selectItems value="#{secteurController.items}"
                                            var="secteurItem" 
                                            itemValue="#{secteurItem}"/>
-                            <p:ajax process="secteur" listener="#{localeController.findAnnexs()}" update="annexAdministratif,quartier,rue" />
+                            <p:ajax process="secteur" listener="#{taxeTrimController.findAnnexs()}" update="annexAdministratif,quartier,rue" />
                         </p:selectOneMenu>
 
                         <p:outputLabel value="annexAdministratif" />
-                        <p:selectOneMenu id="annexAdministratif"  value="#{localeController.annexeAdministratif}" >
+                        <p:selectOneMenu id="annexAdministratif"  value="#{taxeTrimController.annexeAdministratif}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
-                            <f:selectItems value="#{localeController.secteur.annexeAdministratifs}"
+                            <f:selectItems value="#{taxeTrimController.secteur.annexeAdministratifs}"
                                            var="annexAdministratifItem" 
                                            itemValue="#{annexAdministratifItem}"/>
-                            <p:ajax process="annexAdministratif" listener="#{localeController.findQuartiers()}" update="quartier,rue" />
+                            <p:ajax process="annexAdministratif" listener="#{taxeTrimController.findQuartiers()}" update="quartier,rue" />
                         </p:selectOneMenu>
 
                         <p:outputLabel value="quartier" />
-                        <p:selectOneMenu id="quartier"  value="#{localeController.quartier}" >
+                        <p:selectOneMenu id="quartier"  value="#{taxeTrimController.quartier}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
-                            <f:selectItems value="#{localeController.annexeAdministratif.quartiers}"
+                            <f:selectItems value="#{taxeTrimController.annexeAdministratif.quartiers}"
                                            var="quartierItem" 
                                            itemValue="#{quartierItem}"/>
-                            <p:ajax process="quartier" listener="#{localeController.findRues()}" update="rue" />
+                            <p:ajax process="quartier" listener="#{taxeTrimController.findRues()}" update="rue" />
                         </p:selectOneMenu>
 
                         <p:outputLabel value="#{bundle.CreateLocaleLabel_rue}" for="rue" />
-                        <p:selectOneMenu id="rue" value="#{localeController.selected.rue}" >
+                        <p:selectOneMenu id="rue" value="#{taxeTrimController.rue}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
-                            <f:selectItems value="#{localeController.quartier.rues}"
+                            <f:selectItems value="#{taxeTrimController.quartier.rues}"
                                            var="rueItem"
                                            itemValue="#{rueItem}"/>
                         </p:selectOneMenu>
+
                         <p:outputLabel value="activite" for="activite" />
-                        <p:selectOneMenu id="activite" value="#{localeController.selected.activite}" >
+                        <p:selectOneMenu id="activite" value="#{taxeTrimController.activite}" >
                             <f:selectItem itemValue="#{null}" itemLabel="--SELECT--"/>
-                            <f:selectItems value="#{localeController.activities}"
+                            <f:selectItems value="#{taxeTrimController.activities}"
                                            var="activiteItem"
                                            itemValue="#{activiteItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="1eme année" ></p:outputLabel>
-                        <p:inputText id="firstYear"/>
+                        <p:inputText id="firstYear" value="#{taxeTrimController.firstYear}" title="1eme année"/>
                         <p:outputLabel value="2eme année"></p:outputLabel>
-                        <p:inputText id="secondYear"/>
+                        <p:inputText id="secondYear" value="#{taxeTrimController.secondYear}" title="2eme année"/>
 
                     </p:panelGrid>
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton update=":graphe" value="Rechecher" actionListener="#{taxeTrimController.createBarModel()}"></p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
 
                 </h:form>
-            </ui:define>
-            <p:chart type="bar" model="#{chartView.barModel}" style="height:300px"/>
-        </ui:composition>   
-    </h:body>
+                <p:chart type="bar" id="graphe" model="#{taxeTrimController.modele}" style="height:300px"/>
+            </h:body>
+        </ui:define>
+    </ui:composition>   
+
 </html>
 

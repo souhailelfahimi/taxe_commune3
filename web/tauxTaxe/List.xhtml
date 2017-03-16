@@ -14,7 +14,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="TauxTaxeListForm">
+            <h:form id="TauxTaxeListForm" style="padding-left: 15%;padding-right:15%; background-color: #eee6ff ;text-align: center">
                 <p:panel header="#{bundle.ListTauxTaxeTitle}">
                     <p:dataTable id="datalist" value="#{tauxTaxeController.items}" var="item"
                                  selectionMode="single" selection="#{tauxTaxeController.selected}"

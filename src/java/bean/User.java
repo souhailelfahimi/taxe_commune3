@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,6 +33,8 @@ public class User implements Serializable {
     private boolean admin;
     @OneToMany(mappedBy = "user")
     private List<Device> devices;
+    @ManyToOne
+    private AnnexeAdministratif annexeAdministratif;
     
 
     public boolean isAdmin() {
@@ -143,6 +146,22 @@ public class User implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
+    }
+
+    public AnnexeAdministratif getAnnexeAdministratif() {
+        return annexeAdministratif;
+    }
+
+    public void setAnnexeAdministratif(AnnexeAdministratif annexeAdministratif) {
+        this.annexeAdministratif = annexeAdministratif;
     }
 
     

@@ -33,6 +33,8 @@ public class AnnexeAdministratif implements Serializable {
     private String abreviation;
     @OneToMany(mappedBy = "annexeAdministratif")
     private List<Quartier> quartiers;
+    @OneToMany(mappedBy = "annexeAdministratif")
+    private List<User> users;
 
     public AnnexeAdministratif() {
     }
@@ -79,6 +81,15 @@ public class AnnexeAdministratif implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+    
 
     @Override
     public int hashCode() {

@@ -4,8 +4,8 @@ import bean.AnnexeAdministratif;
 import bean.Categorie;
 import bean.Locale;
 import bean.Quartier;
-import bean.Redevable;
 import bean.Secteur;
+import bean.TaxeTrim;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
 import service.LocaleFacade;
@@ -28,6 +28,7 @@ import service.AnnexeAdministratifFacade;
 import service.QuartierFacade;
 import service.RedevableFacade;
 import service.RueFacade;
+import service.TaxeTrimFacade;
 
 @Named("localeController")
 @SessionScoped
@@ -38,6 +39,8 @@ public class LocaleController implements Serializable {
     @EJB
     private RueFacade rueFacade;
     @EJB
+    private TaxeTrimFacade taxeTrimFacade;
+    @EJB
     private QuartierFacade quartierFacade;
     @EJB
     private AnnexeAdministratifFacade annexeAdministratifFacade;
@@ -46,6 +49,8 @@ public class LocaleController implements Serializable {
     private List<Locale> items = null;
     private List<Locale> itemsRecherche;
     private Locale selected;
+    //pour list des taxe pour une locale search
+    private List<TaxeTrim> taxeTrim = null;
     //create
     private Quartier quartier;
     private AnnexeAdministratif annexeAdministratif;
@@ -77,14 +82,20 @@ public class LocaleController implements Serializable {
 //        }
 //
 //    }
-
     //la recherche des locale avec plusieurs criteres
     public void findByCreteria() {
         itemsRecherche = ejbFacade.findByGerantOrProprietaire(categorie, redevableFacade.findByCinRc(proprietaireCinRc), selected.getActivite(), selected.getReference(), redevableFacade.findByCinRc(gerantCinRc));
     }
+     public void findByCreteria2() {
+        itemsRecherche = ejbFacade.findByGerantOrProprietaire2(categorie, redevableFacade.findByCinRc(proprietaireCinRc), selected.getReference(), redevableFacade.findByCinRc(gerantCinRc));
+    }
 
     public void findAnnexs() {
         secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur));
+    }
+    public void findtaxes(Locale locale)    
+    {
+        setTaxeTrim(taxeTrimFacade.findTaxesByLocale(locale));
     }
 
     public void findQuartiers() {
@@ -128,6 +139,33 @@ public class LocaleController implements Serializable {
 
     private LocaleFacade getFacade() {
         return ejbFacade;
+    }
+
+    public RedevableFacade getRedevableFacade() {
+        return redevableFacade;
+    }
+
+    public void setRedevableFacade(RedevableFacade redevableFacade) {
+        this.redevableFacade = redevableFacade;
+    }
+
+    public TaxeTrimFacade getTaxeTrimFacade() {
+        return taxeTrimFacade;
+    }
+
+    public void setTaxeTrimFacade(TaxeTrimFacade taxeTrimFacade) {
+        this.taxeTrimFacade = taxeTrimFacade;
+    }
+
+    public List<TaxeTrim> getTaxeTrim() {
+        if (taxeTrim == null) {
+            taxeTrim = new ArrayList<>();
+        }
+        return taxeTrim;
+    }
+
+    public void setTaxeTrim(List<TaxeTrim> taxeTrim) {
+        this.taxeTrim = taxeTrim;
     }
 
     public LocaleFacade getEjbFacade() {

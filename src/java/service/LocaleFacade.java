@@ -13,7 +13,6 @@ import bean.Redevable;
 import bean.Rue;
 import bean.Secteur;
 import controler.util.SearchUtil;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,6 +36,9 @@ public class LocaleFacade extends AbstractFacade<Locale> {
     @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
 
+     public List<String> findAllActivities(){
+        return em.createQuery("SELECT distinct(l.activite) FROM Locale l").getResultList();
+    }
     public List<Locale> findByRedevableCin(String redevable) {
         return em.createQuery("SELECT l FROM Locale l WHERE l.proprietaire.cin='" + redevable + "' OR l.gerant.cin='" + redevable + "'").getResultList();
     }
@@ -66,6 +68,27 @@ public class LocaleFacade extends AbstractFacade<Locale> {
         System.out.println(requette);
         return em.createQuery(requette).getResultList();
     }
+    
+    public List<Locale> findByGerantOrProprietaire2(Categorie categorie, Redevable proprietaire, String reference, Redevable gerant) {
+        String requette = "SELECT l FROM Locale l WHERE 1=1";
+
+        if (proprietaire != null) {
+            requette += " AND l.proprietaire.id="+proprietaire.getId();
+        }
+        if (gerant != null) {
+            requette += " AND l.gerant.id=" + gerant.getId();
+        }
+        if (categorie != null) {
+            requette += SearchUtil.addConstraint("l", "categorie.id", "=", categorie.getId());
+        }
+       
+        if (!reference.equals("")) {
+            requette += SearchUtil.addConstraint("l", "reference", "=", reference);
+        }
+        System.out.println(requette);
+        return em.createQuery(requette).getResultList();
+    }
+
 
     public List<Redevable> findByReference(Locale locale) {
         return em.createQuery("SELECT l FROM Locale l WHERE l.reference='" + locale.getReference() + "'").getResultList();

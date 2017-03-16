@@ -3,6 +3,8 @@ package controler.util;
 import bean.Redevable;
 import bean.User;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,16 @@ public class SessionUtil {
     private static final SessionUtil instance = new SessionUtil();
 
     private SessionUtil() {
+    }
+    
+    
+     private static List<User> users = new ArrayList();
+     
+     private static boolean isConnected(User user) {
+        if (users.stream().anyMatch((x) -> (x.getLogin().equals(user.getLogin())))) {
+            return true;
+        }
+        return false;
     }
 
 //    public static void attachUserToCommune(User user) {
@@ -21,9 +33,16 @@ public class SessionUtil {
 //        registerUser(user);
 //    }
 
-    public static void registerUser(User user) {
+     public static void registerUser(User user) {
         setAttribute("user", user);
+        if (!isConnected(user)) {
+            users.add(user);
+        }
     }
+     public static void unSetUser(User user){
+     users.remove(user);
+     }
+    
 
     public static User getConnectedUser() {
         return (User) getAttribute("user");

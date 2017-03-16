@@ -12,8 +12,8 @@
         <ui:define name="body">
             <h:body>
                 <h:form>
-                    <p:fieldset legend="Rechercher des locales par différents critères:">
-                        <p:panelGrid columns="6">
+                    <p:fieldset legend="Rechercher des locales par différents critères:" style="padding-left: 5%;padding-right: 5%; background-color: #eee6ff ">
+                        <p:panelGrid columns="10">
                             <p:outputLabel value="Proprietaire:" />
                             <p:inputText id="proprietaire" value="#{localeController.proprietaireCinRc}" />
                             <p:outputLabel value="Gerant:" />
@@ -27,8 +27,10 @@
                             <p:inputText id="reference" value="#{localeController.selected.reference}" title="Reference" />
                             <p:outputLabel value="Activite:" for="activite" />
                             <p:inputText id="activite" value="#{localeController.selected.activite}" title="Activite" />
-                            <p:commandButton value="Rechecher" actionListener="#{localeController.findByCreteria()}" update="datalist"></p:commandButton>
                         </p:panelGrid>
+                         <div align="center">
+                        <p:commandButton value="Rechecher" style="color:darkblue" icon="ui-icon-search" actionListener="#{localeController.findByCreteria()}" update="datalist"></p:commandButton>
+                    </div>
 
                     </p:fieldset>
 

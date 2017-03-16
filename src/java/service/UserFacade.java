@@ -152,7 +152,6 @@ public class UserFacade extends AbstractFacade<User> {
             if (loadedUser == null) {
                 return -4;
             } else if (!loadedUser.getPassword().equals(HashageUtil.sha256(user.getPassword()))) {
-
                 if (loadedUser.getNbrCnx() < 3) {
                     System.out.println("hana loadedUser.getNbrCnx() < 3 ::: " + loadedUser.getNbrCnx());
                     loadedUser.setNbrCnx(loadedUser.getNbrCnx() + 1);
@@ -259,27 +258,16 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     public Object[] seConnecte(User user) {
-
         User loadedUser = find(user.getLogin());
-
         if (loadedUser == null) {
             JsfUtil.addErrorMessage("ERROR!!");
-
             return new Object[]{-1, null};
-
         } else if (!loadedUser.getPassword().equals(user.getPassword())) {
-
             return new Object[]{-2, null};
-
         } else if (loadedUser.getBlocked() == 1) {
-
             return new Object[]{-3, null};
-
         } else {
-
             return new Object[]{1, loadedUser};
-
         }
-
     }
 }

@@ -1,11 +1,14 @@
 package controler;
 
+import bean.Historique;
 import bean.User;
 import controler.util.JsfUtil;
 import controler.util.JsfUtil.PersistAction;
+import controler.util.SessionUtil;
 import service.UserFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.HistoriqueFacade;
 
 @Named("userController")
 @SessionScoped
@@ -25,17 +29,17 @@ public class UserController implements Serializable {
 
     @EJB
     private service.UserFacade ejbFacade;
+    @EJB
+    private HistoriqueFacade historiqueFacade;
     private List<User> items = null;
-    private User selected=new User();
+    private User selected = new User();
 
-    public UserController() {
-    }
-    public String reset(){
-        User loadedUser=ejbFacade.find(selected);
-        
-        if(loadedUser.getEmail().equals(selected.getEmail()) && loadedUser.getTel().equals(selected.getTel())){
-            if(loadedUser.getNom().equals(selected.getTel()) && loadedUser.getPrenom().equals(selected.getPrenom())){
-               return loadedUser.getPassword();
+    public String reset() {
+        User loadedUser = ejbFacade.find(selected);
+
+        if (loadedUser.getEmail().equals(selected.getEmail()) && loadedUser.getTel().equals(selected.getTel())) {
+            if (loadedUser.getNom().equals(selected.getTel()) && loadedUser.getPrenom().equals(selected.getPrenom())) {
+                return loadedUser.getPassword();
             }
         }
         return "/faces/index";
@@ -43,17 +47,32 @@ public class UserController implements Serializable {
 
     public String connectAsAdmin() {
         User loadedUser = ejbFacade.find(selected);
-        if (loadedUser.isAdmin()) {
-            String seConnecter = seConnecter();
-            if ("/user/Home".equals(seConnecter)) {
-                JsfUtil.addSuccessMessage("Bienvenue admin");
-                return "/user/Admin";
+        if (loadedUser != null) {
+            if (loadedUser.isAdmin()) {
+                String seConnecter = seConnecter();
+                if ("/user/Home".equals(seConnecter)) {
+                    JsfUtil.addSuccessMessage("Bienvenue admin");
+                    return "/user/Admin";
+                }
+                JsfUtil.addErrorMessage("ERROR Connection");
+                return "/index";
             }
-            JsfUtil.addErrorMessage("ERROR Connection");
-            return "/user/AdminAccess";
+            JsfUtil.addErrorMessage("ERROR Connection user not found");
+            return "/index";
+        } else {
+            return "/user/Home";
         }
-        JsfUtil.addErrorMessage("ERROR Connection user not found");
-        return "/user/AdminAccess";
+    }
+    // int tentatives = 3;
+
+    public String seConnecter() {
+        int res1 = ejbFacade.seConnecter(selected);
+        if (res1 == 1) {
+            SessionUtil.registerUser(selected);
+            historiqueFacade.create(new Historique(new Date(),1,selected));
+            return "/user/Home";
+        }
+        return "/index";
     }
 
     public User getSelected() {
@@ -66,14 +85,7 @@ public class UserController implements Serializable {
     public void setSelected(User selected) {
         this.selected = selected;
     }
-   // int tentatives = 3;
-    public String seConnecter() {
-        int res1 = ejbFacade.seConnecter(selected);
-        if (res1 == 1) {     
-            return "/user/Home";
-        }
-        return "/index";
-    }
+    
 
     protected void setEmbeddableKeys() {
     }
@@ -123,17 +135,18 @@ public class UserController implements Serializable {
             try {
                 if (null == persistAction) {
                     JsfUtil.addErrorMessage("ERROR");
-                } 
-                else switch (persistAction) {
-                    case CREATE:
-                        getFacade().addUser(selected);
-                        break;
-                    case UPDATE:
-                        getFacade().edit(selected);
-                        break;                        
-                   default:
-                       getFacade().remove(selected);
-                        break;
+                } else {
+                    switch (persistAction) {
+                        case CREATE:
+                            getFacade().addUser(selected);
+                            break;
+                        case UPDATE:
+                            getFacade().edit(selected);
+                            break;
+                        default:
+                            getFacade().remove(selected);
+                            break;
+                    }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

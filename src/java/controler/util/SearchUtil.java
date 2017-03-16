@@ -79,14 +79,24 @@ public class SearchUtil {
         }
 
     }
+   
     public static String MyconvertDateToString(Date date) throws ParseException {
-        if ( date != null) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (date != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
             return simpleDateFormat.format(date);
         } else {
             return "";
         }
 
+    }
+
+    public static Date stringToDateHours(String d) throws ParseException {
+        if (d != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+            return simpleDateFormat.parse(d);
+        } else {
+            return null;
+        }
     }
 
     public static Date localDateToDate(LocalDate date) throws ParseException {

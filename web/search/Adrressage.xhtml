@@ -15,10 +15,8 @@
         </ui:define>
 
         <ui:define name="body">
-            <table > 
-
-                <tr>
-                    <td>
+            <div class="container" >
+            <div class="col-lg-3" style="margin-top: 4%;padding: -2%;">
                         <h:form id="SecteurListForm">
                             <p:panel header="#{bundle.ListSecteurTitle}">
                                 <p:dataTable id="datalist" value="#{secteurController.items}" var="item"
@@ -56,14 +54,13 @@
                                 </p:dataTable>
                             </p:panel>
                         </h:form>
-
-                    </td>
-                    <td>
-
+            </div>
+              <div class="col-lg-3" style="margin-top: 4%;">
+                    
                         <h:form id="AnnexeAdministratifListForm">
                             <p:panel header="#{bundle.ListAnnexeAdministratifTitle}">
                                 <p:outputLabel value="Nom Annex : "/>
-                                <p:inputText id="nomAnnex" value="#{rueController.nomAnnex}"></p:inputText>
+                                <p:inputText id="nomAnnex" value="#{rueController.nomAnnex}" style="width:115px;"></p:inputText>
                                 <p:commandButton actionListener="#{rueController.findAnnexByName()}" update="datalist" icon="ui-icon-search" />
                                 <p:dataTable id="datalist" value="#{rueController.secteur.annexeAdministratifs}" var="item"
                                              selectionMode="single" 
@@ -99,15 +96,13 @@
                                 </p:dataTable>
                             </p:panel>
                         </h:form>
-                    </td>
-
-                    <td>
-
-
+                   
+              </div>
+              <div class="col-lg-3" style="margin-top: 4%;">
                         <h:form id="QuartierListForm">
                             <p:panel header="#{bundle.ListQuartierTitle}">
                                 <p:outputLabel value="Nom Quartier : "/>
-                                <p:inputText id="nomQuartier" value="#{rueController.nomQuartier}"></p:inputText>
+                                <p:inputText id="nomQuartier" value="#{rueController.nomQuartier}"  style="width:110px;"></p:inputText>
                                 <p:commandButton actionListener="#{rueController.findQuartierByName()}" update="datalist" icon="ui-icon-search" />
                                 <p:dataTable id="datalist" value="#{rueController.annexeAdministratif.quartiers}" var="item"
                                              selectionMode="single" 
@@ -144,14 +139,13 @@
                                 </p:dataTable>
                             </p:panel>
                         </h:form>
-                    </td>
-                    <td>
-
+              </div>
+              <div class="col-lg-3" style="margin-top: 4%;">
 
                         <h:form id="RueListForm">
                             <p:panel header="#{bundle.ListRueTitle}">
                                 <p:outputLabel value="Nom Rue : "/>
-                                <p:inputText id="nomRue" value="#{rueController.nomRue}"></p:inputText>
+                                <p:inputText id="nomRue" value="#{rueController.nomRue}"  style="width:115px;"></p:inputText>
                                 <p:commandButton actionListener="#{rueController.findRueByName()}" update="datalist" icon="ui-icon-search" />
                                 <p:dataTable id="datalist" value="#{rueController.quartier.rues}" var="item"
                                              selectionMode="single" selection="#{rueController.selected}"
@@ -188,10 +182,7 @@
 
                         </h:form>
 
-                    </td>
-                </tr>
-            </table>
-
+              </div>
             <ui:include src="/secteur/Create.xhtml"/>
             <ui:include src="/secteur/Edit.xhtml"/>
             <ui:include src="/secteur/View.xhtml"/>
@@ -207,6 +198,7 @@
             <ui:include src="/rue/Create.xhtml"/>
             <ui:include src="/rue/Edit.xhtml"/>
             <ui:include src="/rue/View.xhtml"/>
+              </div>
         </ui:define>
     </ui:composition>
 </html>
