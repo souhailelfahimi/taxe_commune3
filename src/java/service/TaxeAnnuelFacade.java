@@ -7,6 +7,7 @@ package service;
 
 import bean.Locale;
 import bean.TaxeAnnuel;
+import bean.TaxeTrim;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,12 +32,28 @@ public class TaxeAnnuelFacade extends AbstractFacade<TaxeAnnuel> {
         super(TaxeAnnuel.class);
     }
 
+    public void calculeTaxeAnnuelle(TaxeAnnuel taxeAnnuel) {
+        double totale = 0;
+
+        if (taxeAnnuel.getTaxeTrims().size() > 0) {
+            for (TaxeTrim t : taxeAnnuel.getTaxeTrims()) {
+                if (t != null && t.getMontantTotal() > 0) {
+                    totale += t.getMontantTotal();
+                }
+            }
+            taxeAnnuel.setTaxeTotale(totale);
+        }
+        
+        edit(taxeAnnuel);
+
+    }
+
     public void create(Locale locale, int annee) {
         TaxeAnnuel taxeAnnuel = findByLocaleAndAnnee(locale, annee);
         System.out.println("search taxeAnnuel");
         if (taxeAnnuel == null) {
             System.out.println("searchinh nullllll");
-            taxeAnnuel=new TaxeAnnuel();
+            taxeAnnuel = new TaxeAnnuel();
             taxeAnnuel.setAnnee(annee);
             taxeAnnuel.setNbrTrimesterPaye(1);
             taxeAnnuel.setLocale(locale);

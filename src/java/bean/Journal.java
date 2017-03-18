@@ -61,7 +61,6 @@ public class Journal implements Serializable {
     public void setNouvelleValeur(String nouvelleValeur) {
         this.nouvelleValeur = nouvelleValeur;
     }
-    
 
     public Long getId() {
         return id;
@@ -78,7 +77,6 @@ public class Journal implements Serializable {
     public void setDateAction(Date dateAction) {
         this.dateAction = dateAction;
     }
-
 
     public User getUser() {
         return user;
