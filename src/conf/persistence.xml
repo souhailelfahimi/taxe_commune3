@@ -4,6 +4,9 @@
     <jta-data-source>java:app/taxe_commune1</jta-data-source>
     <class>bean.AnnexeAdministratif</class>
     <class>bean.Categorie</class>
+    <class>bean.Device</class>
+    <class>bean.Historique</class>
+    <class>bean.Journal</class>
     <class>bean.Locale</class>
     <class>bean.Quartier</class>
     <class>bean.Redevable</class>

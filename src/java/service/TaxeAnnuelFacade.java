@@ -49,9 +49,11 @@ public class TaxeAnnuelFacade extends AbstractFacade<TaxeAnnuel> {
     }
 
     public void create(Locale locale, int annee) {
+        
         TaxeAnnuel taxeAnnuel = findByLocaleAndAnnee(locale, annee);
         System.out.println("search taxeAnnuel");
         if (taxeAnnuel == null) {
+            
             System.out.println("searchinh nullllll");
             taxeAnnuel = new TaxeAnnuel();
             taxeAnnuel.setAnnee(annee);
@@ -59,6 +61,7 @@ public class TaxeAnnuelFacade extends AbstractFacade<TaxeAnnuel> {
             taxeAnnuel.setLocale(locale);
             create(taxeAnnuel);
             System.out.println("tcriyat taxeannuell");
+        
         }
     }
 

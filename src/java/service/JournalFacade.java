@@ -6,6 +6,10 @@
 package service;
 
 import bean.Journal;
+import bean.Redevable;
+import bean.User;
+import controler.util.SessionUtil;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +31,28 @@ public class JournalFacade extends AbstractFacade<Journal> {
 
     public JournalFacade() {
         super(Journal.class);
+    }
+//     public  String deconnection(){
+//        User user=SessionUtil.getConnectedUser();
+//        SessionUtil.unSetUser(user);
+//        selected=new Historique(new Date(),2,user);
+//        ejbFacade.create(selected);
+//        return "/faces/index";
+//    }
+
+    public void journalCreatorDelet(String beanName, int type) {
+        User user = SessionUtil.getConnectedUser();
+        Journal journal = new Journal(new Date(), type, beanName, user);
+        create(journal);
+    }
+
+    public void journalUpdateRedevable(String beanName, int type, Redevable oldred, Redevable newred) {
+
+        User user = SessionUtil.getConnectedUser();
+
+        Journal journal = new Journal(new Date(), type, oldred.toString(), newred.toString(), beanName, user);
+        create(journal);
+
     }
 
     public void clone(Journal journalSource, Journal journalDestaination) {

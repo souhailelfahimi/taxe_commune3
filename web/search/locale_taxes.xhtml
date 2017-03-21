@@ -12,7 +12,7 @@
 
         <ui:define name="body">
             <h:body>
-                <h:form>
+                <h:form id="form">
                     <div class="row">
                         <div>
                             <p:fieldset legend="Rechercher des locales " style="padding-left: 5%;padding-right: 5%; background-color: #eee6ff ">
@@ -30,7 +30,7 @@
                                     <p:inputText id="reference" value="#{localeController.selected.reference}" title="Reference" />
                                 </p:panelGrid>
                                 <div align="center">
-                                    <p:commandButton value="Rechecher"  icon="ui-icon-search" actionListener="#{localeController.findByCreteria2()}" update="datalist"/>
+                                    <p:commandButton value="Rechecher"  icon="ui-icon-search" actionListener="#{localeController.findByCreteria2()}" update="form:datalist" />
                                 </div>
 
                             </p:fieldset>
@@ -82,7 +82,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Action"/>
                                         </f:facet>
-                                        <p:commandButton actionListener="#{localeController.findtaxes(item)}"  icon="ui-icon-search"  />
+                                        <p:commandButton actionListener="#{localeController.findtaxes(item)}"  icon="ui-icon-search" update="form:taxedatalist" />
                                     </p:column>
 
 
