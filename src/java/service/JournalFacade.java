@@ -6,6 +6,7 @@
 package service;
 
 import bean.Journal;
+import bean.Locale;
 import bean.Redevable;
 import bean.User;
 import controler.util.SessionUtil;
@@ -46,11 +47,12 @@ public class JournalFacade extends AbstractFacade<Journal> {
         create(journal);
     }
 
-    public void journalUpdateRedevable(String beanName, int type, Redevable oldred, Redevable newred) {
+
+     public void journalUpdate(String beanName, int type, Object old, Object neew ) {
 
         User user = SessionUtil.getConnectedUser();
 
-        Journal journal = new Journal(new Date(), type, oldred.toString(), newred.toString(), beanName, user);
+        Journal journal = new Journal(new Date(), type, old.toString(), neew .toString(), beanName, user);
         create(journal);
 
     }

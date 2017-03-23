@@ -139,7 +139,7 @@ public class RedevableController implements Serializable {
                         case UPDATE:
                             Redevable oldvalue = getFacade().find(selected.getId());
                             getFacade().edit(selected);
-                            journalFacade.journalUpdateRedevable("Redevable", 2, oldvalue, selected);
+                            journalFacade.journalUpdate("Redevable", 2, oldvalue, selected);
                             JsfUtil.addSuccessMessage(successMessage);
                             break;
                         default:

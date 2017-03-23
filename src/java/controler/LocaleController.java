@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import service.AnnexeAdministratifFacade;
+import service.JournalFacade;
 import service.QuartierFacade;
 import service.RedevableFacade;
 import service.RueFacade;
@@ -42,6 +43,8 @@ public class LocaleController implements Serializable {
     private TaxeTrimFacade taxeTrimFacade;
     @EJB
     private QuartierFacade quartierFacade;
+    @EJB
+    private JournalFacade journalFacade;
     @EJB
     private AnnexeAdministratifFacade annexeAdministratifFacade;
     @EJB
@@ -86,15 +89,16 @@ public class LocaleController implements Serializable {
     public void findByCreteria() {
         itemsRecherche = ejbFacade.findByGerantOrProprietaire(categorie, redevableFacade.findByCinRc(proprietaireCinRc), selected.getActivite(), selected.getReference(), redevableFacade.findByCinRc(gerantCinRc));
     }
-     public void findByCreteria2() {
+
+    public void findByCreteria2() {
         itemsRecherche = ejbFacade.findByGerantOrProprietaire2(categorie, redevableFacade.findByCinRc(proprietaireCinRc), selected.getReference(), redevableFacade.findByCinRc(gerantCinRc));
     }
 
     public void findAnnexs() {
         secteur.setAnnexeAdministratifs(annexeAdministratifFacade.findBySecteur(secteur));
     }
-    public void findtaxes(Locale locale)    
-    {
+
+    public void findtaxes(Locale locale) {
         setTaxeTrim(taxeTrimFacade.findTaxesByLocale(locale));
     }
 
@@ -114,6 +118,14 @@ public class LocaleController implements Serializable {
             selected = new Locale();
         }
         return selected;
+    }
+
+    public JournalFacade getJournalFacade() {
+        return journalFacade;
+    }
+
+    public void setJournalFacade(JournalFacade journalFacade) {
+        this.journalFacade = journalFacade;
     }
 
     public void setSelected(Locale selected) {
@@ -227,15 +239,20 @@ public class LocaleController implements Serializable {
 //                        if(getFacade().findByReference(selected).get(0)==null){
                             getFacade().edit(selected);
 //                        }else{
+                            journalFacade.journalCreatorDelet("Locale", 1);
                             JsfUtil.addSuccessMessage("Locale bien crée");
 //                        }
                             break;
                         case UPDATE:
+                            Locale oldvalue = getFacade().find(selected.getId());
                             getFacade().edit(selected);
+                            journalFacade.journalUpdate("Locale", 2, oldvalue, selected);
                             JsfUtil.addSuccessMessage(successMessage);
                             break;
                         default:
                             getFacade().remove(selected);
+                            journalFacade.journalCreatorDelet("Locale", 3);
+
                             JsfUtil.addSuccessMessage(successMessage);
                             break;
                     }
